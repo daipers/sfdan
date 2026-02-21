@@ -60,9 +60,9 @@
 7. Dashboard works on mobile devices
 
 **Plans:**
-- [ ] 03-01-PLAN.md — Core infrastructure (dependencies, URL state, API layer)
-- [ ] 03-02-PLAN.md — Data table and filter components
-- [ ] 03-03-PLAN.md — Summary metrics and mobile responsiveness
+- [x] 03-01-PLAN.md — Core infrastructure (dependencies, URL state, API layer)
+- [x] 03-02-PLAN.md — Data table and filter components
+- [x] 03-03-PLAN.md — Summary metrics and mobile responsiveness
 
 ---
 
@@ -92,7 +92,7 @@
 |-------|----------------|--------|-----------|
 | 1. Foundation & Data Ingestion | 1/1 | Completed | 2026-02-20 |
 | 2. Scoring Engine | 1/1 | Completed | 2026-02-20 |
-| 3. Dashboard & Search | 0/3 | Ready | - |
+| 3. Dashboard & Search | 3/3 | Completed | 2026-02-21 |
 | 4. Details & Lead Gen | 0/1 | Not started | - |
 
 ---
