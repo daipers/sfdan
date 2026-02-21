@@ -70,6 +70,20 @@ None - all checks passed.
 
 ---
 
+## Additional Fix Applied
+
+**NuqsAdapter Missing (Fixed)**
+
+| Item | Status |
+|------|--------|
+| NuqsAdapter in layout | ✅ Added |
+| Build passes | ✅ Yes |
+| Import | ✅ `nuqs/adapters/next/app` |
+
+**Fix:** Wrapped children in `<NuqsAdapter>` inside `src/app/layout.tsx`
+
+---
+
 ## Next Steps
 
 1. Monitor Netlify deployment at https://app.netlify.com/sites/sfdan/deploys
@@ -82,3 +96,4 @@ None - all checks passed.
 ---
 
 *UAT completed: 2026-02-21*
+*Updated: 2026-02-21 (NuqsAdapter fix verified)*
