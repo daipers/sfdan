@@ -82,10 +82,20 @@ export default function HomePage({ searchParams }: { searchParams: Promise<Recor
             <div>
               <h1 className="text-3xl md:text-4xl font-bold mb-2">Federal Funding Dashboard</h1>
               <p className="text-gray-600">
-                Track IIJA infrastructure funding and procedural compliance
+                Track IIJA infrastructure funding and procedural compliance.{' '}
+                <Link href="/assess" className="text-blue-600 hover:text-blue-800 underline">
+                  Assess your project
+                </Link>{' '}
+                for a private compliance score.
               </p>
             </div>
             <nav className="flex flex-wrap gap-4 text-sm">
+              <Link
+                href="/assess"
+                className="text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
+              >
+                Assess Your Project
+              </Link>
               <Link
                 href="/methodology"
                 className="text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
