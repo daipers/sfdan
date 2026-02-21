@@ -98,7 +98,9 @@
 - [To be defined]
 
 **Plans:**
-- [ ] 05-01-PLAN.md — [To be planned]
+- [x] 05-01-PLAN.md — Agency comparison charts
+- [x] 05-02-PLAN.md — Self-assessment tool
+- [x] 05-03-PLAN.md — Data export functionality
 
 ---
 
@@ -110,7 +112,7 @@
 | 2. Scoring Engine | 1/1 | Completed | 2026-02-20 |
 | 3. Dashboard & Search | 3/3 | Completed | 2026-02-21 |
 | 4. Details & Lead Gen | 3/3 | Completed | 2026-02-21 |
-| 5. [To be planned] | 0/0 | Not started | - |
+| 5. Visualization & Self-Assessment | 3/3 | Completed | 2026-02-21 |
 
 ---
 
