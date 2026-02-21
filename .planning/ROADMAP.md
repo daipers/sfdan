@@ -82,7 +82,10 @@
 8. FAQ section addresses common scoring questions
 9. Data sources page explains update frequency
 
-**Plans:** TBD
+**Plans:**
+- [ ] 04-01-PLAN.md — Project detail pages with score breakdown and timeline
+- [ ] 04-02-PLAN.md — Lead generation with Supabase Auth magic links
+- [ ] 04-03-PLAN.md — Documentation pages (methodology, FAQ, data sources)
 
 ---
 
@@ -93,7 +96,7 @@
 | 1. Foundation & Data Ingestion | 1/1 | Completed | 2026-02-20 |
 | 2. Scoring Engine | 1/1 | Completed | 2026-02-20 |
 | 3. Dashboard & Search | 3/3 | Completed | 2026-02-21 |
-| 4. Details & Lead Gen | 0/1 | Not started | - |
+| 4. Details & Lead Gen | 0/3 | Not started | - |
 
 ---
 
