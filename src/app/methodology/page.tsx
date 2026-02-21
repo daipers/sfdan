@@ -33,11 +33,11 @@ export default function MethodologyPage() {
             <p>
               Each award receives a score from 0-100 based on three weighted components:
             </p>
-            <ul>
-              <li><strong>Environmental Review (35%)</strong> — Likelihood of NEPA compliance</li>
-              <li><strong>Competitive Bidding (35%)</strong> — Degree of competitive process</li>
-              <li><strong>Modification Authorization (30%)</strong> — Proper oversight period</li>
-            </ul>
+              <ul>
+                <li><strong>Environmental Review (40%)</strong> — NEPA timeline compliance</li>
+                <li><strong>Competitive Bidding (35%)</strong> — Competition requirements under 2 CFR 200</li>
+                <li><strong>Modification Authorization (25%)</strong> — Change order approval process</li>
+              </ul>
           </section>
 
           {/* Score Interpretation */}
@@ -73,7 +73,7 @@ export default function MethodologyPage() {
             <h2>Scoring Components</h2>
             
             <div className="mb-6">
-              <h3>Environmental Review (35% weight)</h3>
+              <h3>Environmental Review (40% weight)</h3>
               <p>
                 This component evaluates whether the award is likely subject to the National 
                 Environmental Policy Act (NEPA) review process. NEPA requires federal agencies 
@@ -113,7 +113,7 @@ export default function MethodologyPage() {
             </div>
 
             <div className="mb-6">
-              <h3>Modification Authorization (30% weight)</h3>
+              <h3>Modification Authorization (25% weight)</h3>
               <p>
                 Proper period of performance and oversight is required for federal awards. 
                 This component evaluates whether the award has defined oversight parameters.

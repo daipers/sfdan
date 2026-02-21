@@ -116,12 +116,32 @@ export default async function Home({ searchParams }: PageProps) {
                 Track IIJA infrastructure funding and procedural compliance
               </p>
             </div>
-            <Link 
-              href="/methodology" 
-              className="text-sm text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
-            >
-              Scoring Methodology
-            </Link>
+            <nav className="flex flex-wrap gap-4 text-sm">
+              <Link 
+                href="/methodology" 
+                className="text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
+              >
+                Methodology
+              </Link>
+              <Link 
+                href="/faq" 
+                className="text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
+              >
+                FAQ
+              </Link>
+              <Link 
+                href="/data-sources" 
+                className="text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
+              >
+                Data Sources
+              </Link>
+              <Link 
+                href="/gated-reports" 
+                className="text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
+              >
+                Reports
+              </Link>
+            </nav>
           </div>
           <DataCurrencyBadge 
             lastUpdated={lastUpdated} 
