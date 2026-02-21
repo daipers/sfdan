@@ -1,3 +1,5 @@
+import { calculateScore, ScoreBreakdown } from './scoring';
+
 // USASpending.gov API client
 // API v2 Documentation: https://github.com/fedspendingtransparency/usaspending-api/blob/master/docs/API.md
 
@@ -75,6 +77,8 @@ export async function fetchAwards(
       'Award Amount',
       'Start Date',
       'End Date',
+      'Award Type',
+      'Assistance Type',
     ],
     sort: 'Award Amount',
     order: 'desc',
@@ -94,7 +98,34 @@ export async function fetchAwards(
     throw new Error(`USASpending API error: ${response.status} - ${error}`);
   }
 
-  return response.json();
+  const data = await response.json();
+  
+  // Add scoring to each award
+  if (data.results && Array.isArray(data.results)) {
+    data.results = data.results.map((award: any) => {
+      // Map API fields to scoring engine expected format
+      const awardForScoring = {
+        'Award ID': award['Award ID'],
+        'Description': award['Description'],
+        'Recipient Name': award['Recipient Name'],
+        'Awarding Agency': award['Awarding Agency'],
+        'Funding Agency': award['Funding Agency'],
+        'Award Amount': award['Award Amount'],
+        'Start Date': award['Start Date'],
+        'End Date': award['End Date'],
+        awardType: award['Award Type'],
+        assistanceType: award['Assistance Type'],
+      };
+      
+      const score = calculateScore(awardForScoring);
+      return {
+        ...award,
+        score
+      };
+    });
+  }
+  
+  return data;
 }
 
 /**

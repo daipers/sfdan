@@ -1,5 +1,7 @@
 import { fetchAwards, fetchLastUpdated } from "@/lib/usaspending";
 import { DataCurrencyBadge } from "@/components/DataCurrencyBadge";
+import { AwardCard } from "@/components/AwardCard";
+import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
 
@@ -27,10 +29,20 @@ export default async function Home() {
     <main className="min-h-screen p-8">
       <div className="max-w-7xl mx-auto">
         <header className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Federal Funding Dashboard</h1>
-          <p className="text-gray-600 mb-4">
-            Track IIJA infrastructure funding and procedural compliance
-          </p>
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-4xl font-bold mb-2">Federal Funding Dashboard</h1>
+              <p className="text-gray-600 mb-4">
+                Track IIJA infrastructure funding and procedural compliance
+              </p>
+            </div>
+            <Link 
+              href="/methodology" 
+              className="text-sm text-blue-600 hover:text-blue-800 underline"
+            >
+              Scoring Methodology
+            </Link>
+          </div>
           <DataCurrencyBadge 
             lastUpdated={lastUpdated} 
             isLoading={false}
@@ -49,25 +61,7 @@ export default async function Home() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {awards.slice(0, 12).map((award: any) => (
-              <div 
-                key={award['Award ID']} 
-                className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <h3 className="font-semibold text-lg mb-2 line-clamp-2">
-                  {award['Description'] || award['Award ID'] || 'Untitled Award'}
-                </h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  {award['Recipient Name'] || 'Unknown Recipient'}
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-green-700">
-                    ${(award['Award Amount'] || 0).toLocaleString()}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    {award['Awarding Agency'] || 'N/A'}
-                  </span>
-                </div>
-              </div>
+              <AwardCard key={award['Award ID']} award={award} />
             ))}
           </div>
         )}
