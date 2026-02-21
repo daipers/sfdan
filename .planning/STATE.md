@@ -49,8 +49,8 @@
 
 ## Session Continuity
 
-**Last session:** Phase 4 (Details & Lead Gen) verified complete
-**Next action:** `/gsd-plan-phase 05` to plan Phase 5
+**Last session:** Netlify deployment verification complete
+**Next action:** Test live site at https://sfdan.netlify.app
 
 ---
 
