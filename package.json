@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
-    "@supabase/supabase-js": "^2.47.0",
+    "@supabase/supabase-js": "^2.97.0",
     "@tanstack/react-table": "^8.21.3",
     "@tremor/react": "^4.0.0-beta-tremor-v4.4",
     "date-fns": "^4.1.0",
