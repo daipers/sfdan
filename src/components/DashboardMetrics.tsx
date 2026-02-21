@@ -1,7 +1,9 @@
 // src/components/DashboardMetrics.tsx
 'use client'
 
+import { useEffect, useState } from 'react'
 import { Card } from '@tremor/react'
+import { AgencyChart, AgencyStatsData } from './AgencyChart'
 
 interface SummaryMetrics {
   totalSpending: number
@@ -14,6 +16,30 @@ interface DashboardMetricsProps {
 }
 
 export function DashboardMetrics({ metrics }: DashboardMetricsProps) {
+  const [agencyStats, setAgencyStats] = useState<AgencyStatsData[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchAgencyStats() {
+      try {
+        const response = await fetch('/api/agency-stats')
+        if (!response.ok) {
+          throw new Error('Failed to fetch agency stats')
+        }
+        const data = await response.json()
+        setAgencyStats(data)
+      } catch (err) {
+        setError('Unable to load agency comparison data')
+        console.error('Error fetching agency stats:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAgencyStats()
+  }, [])
+
   const formatCurrency = (amount: number) => {
     if (amount >= 1e9) {
       return `$${(amount / 1e9).toFixed(1)}B`
@@ -37,42 +63,61 @@ export function DashboardMetrics({ metrics }: DashboardMetricsProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {/* Total Spending */}
-      <Card className="bg-white">
-        <p className="text-sm text-gray-600">Total Spending</p>
-        <p className="text-2xl font-semibold text-gray-900">
-          {formatCurrency(metrics.totalSpending)}
-        </p>
-        <p className="text-xs text-gray-500 mt-1">
-          Across {metrics.projectCount.toLocaleString()} projects
-        </p>
-      </Card>
-
-      {/* Project Count */}
-      <Card className="bg-white">
-        <p className="text-sm text-gray-600">Projects Analyzed</p>
-        <p className="text-2xl font-semibold text-gray-900">
-          {metrics.projectCount.toLocaleString()}
-        </p>
-        <p className="text-xs text-gray-500 mt-1">
-          IIJA infrastructure awards
-        </p>
-      </Card>
-
-      {/* Average Score */}
-      <Card className="bg-white">
-        <p className="text-sm text-gray-600">Avg. Compliance Score</p>
-        <div className="flex items-baseline gap-2">
-          <p className={`text-2xl font-semibold ${getScoreColor(metrics.avgScore)}`}>
-            {metrics.avgScore}
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Total Spending */}
+        <Card className="bg-white">
+          <p className="text-sm text-gray-600">Total Spending</p>
+          <p className="text-2xl font-semibold text-gray-900">
+            {formatCurrency(metrics.totalSpending)}
           </p>
-          <p className="text-gray-500">/ 100</p>
-        </div>
-        <p className="text-xs text-gray-500 mt-1">
-          {getScoreDescription(metrics.avgScore)}
-        </p>
-      </Card>
-    </div>
+          <p className="text-xs text-gray-500 mt-1">
+            Across {metrics.projectCount.toLocaleString()} projects
+          </p>
+        </Card>
+
+        {/* Project Count */}
+        <Card className="bg-white">
+          <p className="text-sm text-gray-600">Projects Analyzed</p>
+          <p className="text-2xl font-semibold text-gray-900">
+            {metrics.projectCount.toLocaleString()}
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            IIJA infrastructure awards
+          </p>
+        </Card>
+
+        {/* Average Score */}
+        <Card className="bg-white">
+          <p className="text-sm text-gray-600">Avg. Compliance Score</p>
+          <div className="flex items-baseline gap-2">
+            <p className={`text-2xl font-semibold ${getScoreColor(metrics.avgScore)}`}>
+              {metrics.avgScore}
+            </p>
+            <p className="text-gray-500">/ 100</p>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">
+            {getScoreDescription(metrics.avgScore)}
+          </p>
+        </Card>
+      </div>
+
+      {/* Agency Comparison Chart */}
+      <div className="mt-6">
+        <Card className="bg-white">
+          {loading ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="text-gray-500">Loading agency comparison...</div>
+            </div>
+          ) : error ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="text-red-500">{error}</div>
+            </div>
+          ) : (
+            <AgencyChart agencyStats={agencyStats} />
+          )}
+        </Card>
+      </div>
+    </>
   )
 }
