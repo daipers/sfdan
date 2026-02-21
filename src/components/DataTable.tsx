@@ -142,7 +142,7 @@ export function DataTable({
     <div className="w-full">
       <div className="rounded-lg border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm" aria-label="IIJA Projects">
             <thead className="bg-gray-50 border-b border-gray-200">
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
@@ -188,16 +188,17 @@ export function DataTable({
       </div>
       
       {/* Pagination Controls */}
-      <div className="flex items-center justify-between px-2 py-4">
-        <div className="text-sm text-gray-500">
+      <div className="flex flex-col sm:flex-row items-center justify-between px-2 py-4 gap-4">
+        <div className="text-sm text-gray-500 order-2 sm:order-1">
           Showing {pagination.pageIndex * pagination.pageSize + 1} to{' '}
           {Math.min((pagination.pageIndex + 1) * pagination.pageSize, rowCount)} of {rowCount} results
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 order-1 sm:order-2 flex-wrap justify-center">
           <button
             className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => onPaginationChange({ ...pagination, pageIndex: 0 })}
             disabled={pagination.pageIndex === 0}
+            aria-label="First page"
           >
             First
           </button>
@@ -205,16 +206,18 @@ export function DataTable({
             className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => onPaginationChange({ ...pagination, pageIndex: pagination.pageIndex - 1 })}
             disabled={pagination.pageIndex === 0}
+            aria-label="Previous page"
           >
-            Previous
+            Prev
           </button>
-          <span className="text-sm">
+          <span className="text-sm px-2">
             Page {pagination.pageIndex + 1} of {pageCount}
           </span>
           <button
             className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => onPaginationChange({ ...pagination, pageIndex: pagination.pageIndex + 1 })}
             disabled={pagination.pageIndex >= pageCount - 1}
+            aria-label="Next page"
           >
             Next
           </button>
@@ -222,6 +225,7 @@ export function DataTable({
             className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => onPaginationChange({ ...pagination, pageIndex: pageCount - 1 })}
             disabled={pagination.pageIndex >= pageCount - 1}
+            aria-label="Last page"
           >
             Last
           </button>
