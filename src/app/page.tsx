@@ -182,6 +182,14 @@ export default function HomePage({ searchParams }: { searchParams: Promise<Recor
                 rowCount={searchResult.pagination.totalCount}
                 pagination={pagination}
                 sorting={sorting}
+                filters={{
+                  query: page.q || undefined,
+                  state: page.state || null,
+                  agency: page.agency || null,
+                  category: page.category || null,
+                  sort: page.sort || 'amount',
+                  order: page.order || 'desc',
+                }}
                 onPaginationChange={(updater) => {
                   const newPagination = typeof updater === 'function' ? updater(pagination) : updater
                   setPage({ page: newPagination.pageIndex + 1 })

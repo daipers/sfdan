@@ -143,4 +143,20 @@
 
 ---
 
+**Phase 5 Plan 1 - Agency Comparison Charts:** ✅ PASSED
+- Agency stats aggregation library: ✅
+- API endpoint at /api/agency-stats: ✅
+- AgencyChart component with recharts: ✅
+- Dashboard integration: ✅
+- Build succeeds: ✅
+
+**Implementation:**
+- Created src/lib/agency-stats.ts with calculateAgencyStats function
+- Created src/app/api/agency-stats/route.ts with GET handler
+- Created src/components/AgencyChart.tsx with responsive bar chart
+- Modified src/components/DashboardMetrics.tsx to fetch and display charts
+- Color-coded bars by score (green ≥80, yellow ≥60, red <60)
+
+---
+
 *State updated: 2026-02-21*

@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-table'
 import Link from 'next/link'
 import { getScoreColorClass, getScoreDescription } from '@/lib/scoring'
+import { ExportButton } from '@/components/ExportButton'
 
 interface Award {
   'Award ID': string
@@ -36,12 +37,22 @@ declare module '@tanstack/react-table' {
   }
 }
 
+interface FilterState {
+  query?: string
+  state?: string | null
+  agency?: string | null
+  category?: string | null
+  sort?: string
+  order?: 'asc' | 'desc'
+}
+
 interface DataTableProps {
   data: Award[]
   pageCount: number
   rowCount: number
   pagination: PaginationState
   sorting: SortingState
+  filters?: FilterState
   onPaginationChange: (updater: PaginationState | ((old: PaginationState) => PaginationState)) => void
   onSortingChange: (updater: SortingState | ((old: SortingState) => SortingState)) => void
 }
@@ -119,6 +130,7 @@ export function DataTable({
   rowCount,
   pagination,
   sorting,
+  filters = {},
   onPaginationChange,
   onSortingChange,
 }: DataTableProps) {
@@ -141,6 +153,11 @@ export function DataTable({
 
   return (
     <div className="w-full">
+      {/* Export Controls */}
+      <div className="flex justify-end mb-3">
+        <ExportButton filters={filters} estimatedRowCount={rowCount} />
+      </div>
+      
       <div className="rounded-lg border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm" aria-label="IIJA Projects">
