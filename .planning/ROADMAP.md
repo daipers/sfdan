@@ -23,7 +23,8 @@
 4. Cached data is used when API is unavailable or rate-limited
 5. IIJA-specific awards are filtered correctly (by funding agency, assistance type)
 
-**Plans:** TBD
+**Plans:**
+- [x] 01-foundation-PLAN.md — Set up Next.js, USASpending.gov API, caching
 
 ---
 
@@ -39,7 +40,8 @@
 4. Scores calculate automatically when data syncs
 5. Users understand what the score means through tooltips and explanations
 
-**Plans:** TBD
+**Plans:**
+- [x] 02-scoring-01-PLAN.md — Scoring engine with rule definitions and methodology
 
 ---
 
@@ -85,8 +87,8 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Data Ingestion | 0/1 | Not started | - |
-| 2. Scoring Engine | 0/1 | Not started | - |
+| 1. Foundation & Data Ingestion | 1/1 | Completed | 2026-02-20 |
+| 2. Scoring Engine | 1/1 | Completed | 2026-02-20 |
 | 3. Dashboard & Search | 0/1 | Not started | - |
 | 4. Details & Lead Gen | 0/1 | Not started | - |
 
