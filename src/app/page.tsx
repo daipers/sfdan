@@ -1,7 +1,6 @@
 // src/app/page.tsx
 import { fetchLastUpdated } from "@/lib/usaspending";
 import { searchProjects } from "@/lib/api";
-import { loadDashboardParams } from "@/lib/search-params";
 import { DataCurrencyBadge } from "@/components/DataCurrencyBadge";
 import { DataTable } from "@/components/DataTable";
 import { FilterSidebar } from "@/components/FilterSidebar";
@@ -76,7 +75,31 @@ type PageProps = {
 }
 
 export default async function Home({ searchParams }: PageProps) {
-  const params = await loadDashboardParams(searchParams)
+  // Simple searchParams parsing without nuqs server loader
+  let params = {
+    q: '',
+    state: '',
+    agency: '',
+    category: '',
+    page: 1,
+    sort: 'amount',
+    order: 'desc' as 'asc' | 'desc',
+  }
+  
+  try {
+    const resolved = await searchParams
+    params = {
+      q: Array.isArray(resolved.q) ? resolved.q[0] : (resolved.q || ''),
+      state: Array.isArray(resolved.state) ? resolved.state[0] : (resolved.state || ''),
+      agency: Array.isArray(resolved.agency) ? resolved.agency[0] : (resolved.agency || ''),
+      category: Array.isArray(resolved.category) ? resolved.category[0] : (resolved.category || ''),
+      page: parseInt(Array.isArray(resolved.page) ? resolved.page[0] : (resolved.page || '1')) || 1,
+      sort: Array.isArray(resolved.sort) ? resolved.sort[0] : (resolved.sort || 'amount'),
+      order: (Array.isArray(resolved.order) ? resolved.order[0] : (resolved.order || 'desc')) as 'asc' | 'desc',
+    }
+  } catch (e) {
+    console.error('Failed to parse searchParams:', e)
+  }
   
   let lastUpdated: Date | null = null
   let error: string | null = null
