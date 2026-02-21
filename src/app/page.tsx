@@ -12,6 +12,8 @@ import { PaginationState, SortingState } from "@tanstack/react-table";
 export const dynamic = 'force-dynamic';
 
 // Client component wrapper for table interactivity
+import { useQueryStates, parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs'
+
 function TableWrapper({ 
   data, 
   pageCount, 
@@ -28,8 +30,6 @@ function TableWrapper({
   initialOrder: 'asc' | 'desc'
 }) {
   'use client'
-  
-  const { useQueryStates, parseAsInteger, parseAsString, parseAsStringLiteral } = require('nuqs')
   
   const [page, setPage] = useQueryStates({
     page: parseAsInteger.withDefault(1),

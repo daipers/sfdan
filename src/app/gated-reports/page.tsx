@@ -106,7 +106,7 @@ export default function GatedReportsPage() {
 
     // Listen for auth changes
     const supabase = createClient()
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: string, session: any) => {
       setIsAuthenticated(!!session?.user)
       setUserEmail(session?.user?.email || null)
       setIsLoading(false)

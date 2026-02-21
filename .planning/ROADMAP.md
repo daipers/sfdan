@@ -6,6 +6,7 @@
 - [ ] **Phase 2: Scoring Engine** - Build procedural compliance scoring with defensible methodology and regulatory citations
 - [ ] **Phase 3: Dashboard & Search** - Create searchable dashboard with filters, data table, and summary metrics
 - [ ] **Phase 4: Details & Lead Gen** - Build project detail pages and email-gated lead generation
+- [ ] **Phase 5: [To be planned]** - Next phase
 
 ---
 
@@ -83,9 +84,21 @@
 9. Data sources page explains update frequency
 
 **Plans:**
-- [ ] 04-01-PLAN.md — Project detail pages with score breakdown and timeline
-- [ ] 04-02-PLAN.md — Lead generation with Supabase Auth magic links
-- [ ] 04-03-PLAN.md — Documentation pages (methodology, FAQ, data sources)
+- [x] 04-01-PLAN.md — Project detail pages with score breakdown and timeline
+- [x] 04-02-PLAN.md — Lead generation with Supabase Auth magic links
+- [x] 04-03-PLAN.md — Documentation pages (methodology, FAQ, data sources)
+
+---
+
+### Phase 5: [To be planned]
+**Goal:** [To be planned]  
+**Depends on:** Phase 4  
+
+**Success Criteria** (what must be TRUE):
+- [To be defined]
+
+**Plans:**
+- [ ] 05-01-PLAN.md — [To be planned]
 
 ---
 
@@ -96,22 +109,23 @@
 | 1. Foundation & Data Ingestion | 1/1 | Completed | 2026-02-20 |
 | 2. Scoring Engine | 1/1 | Completed | 2026-02-20 |
 | 3. Dashboard & Search | 3/3 | Completed | 2026-02-21 |
-| 4. Details & Lead Gen | 0/3 | Not started | - |
+| 4. Details & Lead Gen | 3/3 | Completed | 2026-02-21 |
+| 5. [To be planned] | 0/0 | Not started | - |
 
 ---
 
 ## Dependencies
 
 ```
-Phase 1 ─────> Phase 2 ─────> Phase 3 ─────> Phase 4
-   (data)       (scoring)       (UI)          (gated)
+Phase 1 ─────> Phase 2 ─────> Phase 3 ─────> Phase 4 ─────> Phase 5
+   (data)       (scoring)       (UI)          (gated)       (TBD)
 ```
 
 ---
 
 ## Notes
 
-- **Depth:** quick (3-5 phases) - 4 phases selected
+- **Depth:** quick (3-5 phases) - 5 phases now planned
 - **Timeline:** 6-8 weeks
 - **Audience:** Government watchdog journalists, municipal finance officers, inspector general community
 - **Core value:** Defensible procedural compliance scoring
