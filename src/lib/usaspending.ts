@@ -30,6 +30,26 @@ export interface AwardSearchResult {
   };
 }
 
+// Award data type with score
+export interface AwardData {
+  'Award ID': string;
+  'Description'?: string;
+  'Recipient Name'?: string;
+  'Awarding Agency'?: string;
+  'Funding Agency'?: string;
+  'Award Amount'?: number;
+  'Start Date'?: string;
+  'End Date'?: string;
+  'Award Type'?: string;
+  'Assistance Type'?: string;
+  score?: {
+    environmental: number;
+    competitiveBidding: number;
+    modificationAuth: number;
+    total: number;
+  };
+}
+
 export interface LastUpdatedResponse {
   last_updated: string;
   certification_date: string;
@@ -126,6 +146,78 @@ export async function fetchAwards(
   }
   
   return data;
+}
+
+/**
+ * Fetch details for a specific award by ID using search endpoint
+ */
+export async function fetchAwardById(awardId: string): Promise<AwardData | null> {
+  const payload = {
+    filters: {
+      award_id: [awardId],
+      time_period: [DEFAULT_TIME_PERIOD],
+    },
+    pagination: {
+      page: 1,
+      count: 1,
+    },
+    fields: [
+      'Award ID',
+      'Description',
+      'Recipient Name',
+      'Awarding Agency',
+      'Funding Agency',
+      'Award Amount',
+      'Start Date',
+      'End Date',
+      'Award Type',
+      'Assistance Type',
+    ],
+  };
+
+  try {
+    const response = await fetch(`${USASPENDING_API_BASE}/search/spending_by_award/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      next: { revalidate: 3600 },
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(`USASpending API error: ${response.status} - ${error}`);
+    }
+
+    const data = await response.json();
+    const award = data.results?.[0];
+    
+    if (!award) return null;
+    
+    // Add scoring to the award
+    const awardForScoring = {
+      'Award ID': award['Award ID'],
+      'Description': award['Description'],
+      'Recipient Name': award['Recipient Name'],
+      'Awarding Agency': award['Awarding Agency'],
+      'Funding Agency': award['Funding Agency'],
+      'Award Amount': award['Award Amount'],
+      'Start Date': award['Start Date'],
+      'End Date': award['End Date'],
+      awardType: award['Award Type'],
+      assistanceType: award['Assistance Type'],
+    };
+    
+    const score = calculateScore(awardForScoring);
+    return {
+      ...award,
+      score
+    };
+  } catch (error) {
+    console.error('Error fetching award by ID:', error);
+    return null;
+  }
 }
 
 /**

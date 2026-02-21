@@ -9,6 +9,7 @@ import {
   PaginationState,
   SortingState,
 } from '@tanstack/react-table'
+import Link from 'next/link'
 import { getScoreColorClass, getScoreDescription } from '@/lib/scoring'
 
 interface Award {
@@ -168,8 +169,9 @@ export function DataTable({
                   key={row.id} 
                   className="hover:bg-gray-50 cursor-pointer"
                   onClick={() => {
-                    // Future: Navigate to detail page
-                    console.log('Clicked award:', row.original['Award ID'])
+                    const awardId = row.original['Award ID']
+                    // Navigate to project detail page
+                    window.location.href = `/projects/${encodeURIComponent(awardId)}`
                   }}
                 >
                   {row.getVisibleCells().map(cell => (
