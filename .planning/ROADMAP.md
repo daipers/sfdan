@@ -2,11 +2,12 @@
 
 ## Phases
 
-- [ ] **Phase 1: Foundation & Data Ingestion** - Set up Next.js project, connect to USASpending.gov API, implement caching layer
-- [ ] **Phase 2: Scoring Engine** - Build procedural compliance scoring with defensible methodology and regulatory citations
-- [ ] **Phase 3: Dashboard & Search** - Create searchable dashboard with filters, data table, and summary metrics
-- [ ] **Phase 4: Details & Lead Gen** - Build project detail pages and email-gated lead generation
-- [ ] **Phase 5: [To be planned]** - Next phase
+- [x] **Phase 1: Foundation & Data Ingestion** - Set up Next.js project, connect to USASpending.gov API, implement caching layer
+- [x] **Phase 2: Scoring Engine** - Build procedural compliance scoring with defensible methodology and regulatory citations
+- [x] **Phase 3: Dashboard & Search** - Create searchable dashboard with filters, data table, and summary metrics
+- [x] **Phase 4: Details & Lead Gen** - Build project detail pages and email-gated lead generation
+- [x] **Phase 5: Visualization & Self-Assessment** - Add agency comparison charts, self-assessment tool, and data export functionality
+- [x] **Phase 6: Polish & Quality** - Add tests, error pages, and improve SEO metadata
 
 ---
 
@@ -90,17 +91,34 @@
 
 ---
 
-### Phase 5: [To be planned]
-**Goal:** [To be planned]  
+### Phase 5: Visualization & Self-Assessment
+**Goal:** Add agency comparison charts, self-assessment tool, and data export functionality  
 **Depends on:** Phase 4  
 
 **Success Criteria** (what must be TRUE):
-- [To be defined]
+- Users can view agency comparison charts
+- Users can assess their own projects for compliance
+- Users can export data to CSV/Excel
 
 **Plans:**
 - [x] 05-01-PLAN.md — Agency comparison charts
 - [x] 05-02-PLAN.md — Self-assessment tool
 - [x] 05-03-PLAN.md — Data export functionality
+
+---
+
+### Phase 6: Polish & Quality
+**Goal:** Add tests, error pages, and improve SEO metadata  
+**Depends on:** Phase 5  
+
+**Success Criteria** (what must be TRUE):
+- Key business logic has unit tests
+- Custom 404 page exists
+- SEO metadata includes Open Graph tags
+- Basic E2E smoke tests pass
+
+**Plans:**
+- [x] 06-01-PLAN.md — Tests, error pages, SEO polish
 
 ---
 
@@ -113,21 +131,22 @@
 | 3. Dashboard & Search | 3/3 | Completed | 2026-02-21 |
 | 4. Details & Lead Gen | 3/3 | Completed | 2026-02-21 |
 | 5. Visualization & Self-Assessment | 3/3 | Completed | 2026-02-21 |
+| 6. Polish & Quality | 1/1 | Completed | 2026-02-21 |
 
 ---
 
 ## Dependencies
 
 ```
-Phase 1 ─────> Phase 2 ─────> Phase 3 ─────> Phase 4 ─────> Phase 5
-   (data)       (scoring)       (UI)          (gated)       (TBD)
+Phase 1 ─────> Phase 2 ─────> Phase 3 ─────> Phase 4 ─────> Phase 5 ─────> Phase 6
+   (data)       (scoring)       (UI)          (gated)       (viz)          (polish)
 ```
 
 ---
 
 ## Notes
 
-- **Depth:** quick (3-5 phases) - 5 phases now planned
+- **Depth:** quick (3-5 phases) - 6 phases planned
 - **Timeline:** 6-8 weeks
 - **Audience:** Government watchdog journalists, municipal finance officers, inspector general community
 - **Core value:** Defensible procedural compliance scoring
