@@ -33,6 +33,44 @@ CREATE TABLE IF NOT EXISTS leads (
     verified_at TIMESTAMP WITH TIME ZONE
 );
 
+-- Table for published content posts (Phase 7)
+CREATE TABLE IF NOT EXISTS content_posts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    slug TEXT UNIQUE NOT NULL,
+    title TEXT NOT NULL,
+    summary TEXT,
+    sections JSONB,
+    insight_ids UUID[] DEFAULT '{}',
+    status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'review', 'published')),
+    is_gated BOOLEAN NOT NULL DEFAULT false,
+    data_sources JSONB,
+    published_at TIMESTAMP WITH TIME ZONE,
+    approved_at TIMESTAMP WITH TIME ZONE,
+    approved_by TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Table for automated insights (Phase 7)
+CREATE TABLE IF NOT EXISTS insights (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    type TEXT NOT NULL,
+    title TEXT NOT NULL,
+    summary TEXT NOT NULL,
+    metrics JSONB NOT NULL,
+    evidence JSONB NOT NULL,
+    trigger_type TEXT NOT NULL,
+    risk_level TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending_review',
+    auto_publish_eligible BOOLEAN NOT NULL DEFAULT false,
+    fingerprint TEXT UNIQUE NOT NULL,
+    period_start DATE,
+    period_end DATE,
+    generated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    approved_at TIMESTAMP WITH TIME ZONE,
+    published_at TIMESTAMP WITH TIME ZONE
+);
+
 -- Table for newsletter subscribers (Phase 7)
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -54,6 +92,8 @@ CREATE INDEX IF NOT EXISTS idx_leads_updated_at ON leads(updated_at);
 ALTER TABLE cached_awards ENABLE ROW LEVEL SECURITY;
 ALTER TABLE sync_status ENABLE ROW LEVEL SECURITY;
 ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE content_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE insights ENABLE ROW LEVEL SECURITY;
 ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 
 -- Create indexes for performance
@@ -61,6 +101,12 @@ CREATE INDEX IF NOT EXISTS idx_cached_awards_key ON cached_awards(cache_key);
 CREATE INDEX IF NOT EXISTS idx_cached_awards_expires ON cached_awards(expires_at) WHERE expires_at IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_leads_email ON leads(email);
 CREATE INDEX IF NOT EXISTS idx_leads_updated_at ON leads(updated_at);
+CREATE INDEX IF NOT EXISTS idx_content_posts_status ON content_posts(status);
+CREATE INDEX IF NOT EXISTS idx_content_posts_published_at ON content_posts(published_at);
+CREATE INDEX IF NOT EXISTS idx_content_posts_slug ON content_posts(slug);
+CREATE INDEX IF NOT EXISTS idx_insights_status ON insights(status);
+CREATE INDEX IF NOT EXISTS idx_insights_type ON insights(type);
+CREATE INDEX IF NOT EXISTS idx_insights_generated_at ON insights(generated_at);
 CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_email ON newsletter_subscribers(email);
 CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_created_at ON newsletter_subscribers(created_at);
 
@@ -79,6 +125,32 @@ CREATE POLICY "Auth users can read leads"
 -- Allow users to update their own lead
 CREATE POLICY "Users can update own lead"
   ON leads FOR UPDATE USING (auth.uid()::text = email);
+
+-- ============================================
+-- RLS Policies for content_posts table
+-- ============================================
+
+-- Allow anyone to read published content
+CREATE POLICY "Public can read published content"
+  ON content_posts FOR SELECT
+  USING (status = 'published');
+
+-- Allow service role full access for admin workflows
+CREATE POLICY "Service role can manage content"
+  ON content_posts FOR ALL
+  USING (auth.role() = 'service_role');
+
+-- ============================================
+-- RLS Policies for insights table
+-- ============================================
+
+-- Allow authenticated users to read insights
+CREATE POLICY "Auth users can read insights"
+  ON insights FOR SELECT USING (auth.role() = 'authenticated');
+
+-- Allow service role inserts for insights
+CREATE POLICY "Service role can insert insights"
+  ON insights FOR INSERT WITH CHECK (auth.role() = 'service_role');
 
 -- Create function to auto-update updated_at
 
