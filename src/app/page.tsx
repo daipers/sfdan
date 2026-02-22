@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect, use, useRef } from 'react'
 import Link from 'next/link'
 import { fetchLastUpdated } from '@/lib/usaspending'
 import { searchProjects } from '@/lib/api'
@@ -9,6 +9,7 @@ import { DataTable } from '@/components/DataTable'
 import { FilterSidebar } from '@/components/FilterSidebar'
 import { DashboardMetrics } from '@/components/DashboardMetrics'
 import { SiteFooter } from '@/components/SiteFooter'
+import { trackEvent } from '@/lib/analytics'
 import { useQueryStates, parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs'
 import { PaginationState, SortingState } from '@tanstack/react-table'
 
@@ -30,8 +31,21 @@ export default function HomePage({ searchParams }: { searchParams: Promise<Recor
   const [searchResult, setSearchResult] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const hasTracked = useRef(false)
 
   // Fetch data when page params change
+  useEffect(() => {
+    if (!hasTracked.current) {
+      hasTracked.current = true
+      void trackEvent({
+        eventName: 'page_view',
+        journey: 'explore',
+        step: 'home',
+        source: 'homepage',
+      })
+    }
+  }, [])
+
   useEffect(() => {
     async function fetchData() {
       setLoading(true)

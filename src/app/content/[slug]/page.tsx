@@ -5,6 +5,7 @@ import { getContentBySlug } from '@/lib/content'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { NewsletterPrompt } from '@/components/NewsletterPrompt'
 import { NewsletterSignupForm } from '@/components/NewsletterSignupForm'
+import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 
 function formatDate(dateString?: string | null) {
   if (!dateString) return 'Unpublished'
@@ -36,6 +37,13 @@ export default async function ContentDetailPage({
 
   return (
     <main className="min-h-screen bg-gray-50">
+      <AnalyticsTracker
+        eventName="page_view"
+        journey="content_detail"
+        step="view"
+        source="content"
+        metadata={{ gated: content.is_gated }}
+      />
       <div className="max-w-4xl mx-auto px-4 py-10">
         <nav className="text-sm text-gray-500 mb-6">
           <Link href="/content" className="hover:text-blue-600">

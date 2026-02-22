@@ -1,6 +1,7 @@
 // src/app/newsletter/page.tsx
 import Link from 'next/link'
 import { NewsletterSignupForm } from '@/components/NewsletterSignupForm'
+import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 
 export default function NewsletterPage() {
   return (
@@ -26,6 +27,12 @@ export default function NewsletterPage() {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-12">
+        <AnalyticsTracker
+          eventName="page_view"
+          journey="newsletter"
+          step="landing"
+          source="newsletter"
+        />
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <div className="mb-8">

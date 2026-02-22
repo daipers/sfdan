@@ -6,6 +6,7 @@ import { getScoreColorClass, getScoreDescription, getScoreExplanation } from '@/
 import { ProjectScoreBreakdown } from '@/components/ProjectScoreBreakdown'
 import { ProjectTimeline } from '@/components/ProjectTimeline'
 import { LeadCaptureCard } from '@/components/LeadCaptureCard'
+import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 
 interface ProjectPageProps {
   params: Promise<{ id: string }>
@@ -64,6 +65,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   
   return (
     <main className="min-h-screen bg-gray-50">
+      <AnalyticsTracker
+        eventName="page_view"
+        journey="project_detail"
+        step="view"
+        source="projects"
+      />
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 py-6">

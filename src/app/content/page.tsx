@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getPublishedContent } from '@/lib/content'
 import { ContentCard } from '@/components/ContentCard'
 import { ContentFilters } from '@/components/ContentFilters'
+import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 
 function getParamValue(value?: string | string[]) {
   if (!value) return ''
@@ -34,6 +35,12 @@ export default async function ContentPage({
 
   return (
     <main className="min-h-screen bg-gray-50">
+      <AnalyticsTracker
+        eventName="page_view"
+        journey="content_library"
+        step="list_view"
+        source="content"
+      />
       <div className="max-w-6xl mx-auto px-4 py-10">
         <header className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
           <div>
