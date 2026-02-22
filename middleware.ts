@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getClientIp, rateLimit } from "@/lib/rate-limit";
+import { getClientIp, isRateLimitingEnabled, rateLimit } from "@/lib/rate-limit";
 
 const API_PREFIX = "/api";
 const HEALTH_PATH = "/api/health";
@@ -12,8 +12,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (!isRateLimitingEnabled()) {
+    return NextResponse.next();
+  }
+
   const ip = getClientIp(request);
-  const result = await rateLimit.limit(ip);
+  const result = await rateLimit!.limit(ip);
   const headers = new Headers();
 
   headers.set("X-RateLimit-Limit", String(result.limit));
