@@ -13,6 +13,7 @@ export const rateLimit = new Ratelimit({
 
 export function getClientIp(request: NextRequest) {
   const forwardedFor =
+    request.headers.get("x-nf-client-connection-ip") ??
     request.headers.get("x-forwarded-for") ??
     request.headers.get("x-real-ip");
 
@@ -21,10 +22,6 @@ export function getClientIp(request: NextRequest) {
     if (ip) {
       return ip;
     }
-  }
-
-  if (request.ip) {
-    return request.ip;
   }
 
   return "unknown";
