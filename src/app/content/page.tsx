@@ -50,7 +50,7 @@ export default async function ContentPage({
           </div>
           <div className="flex items-center gap-3">
             <Link
-              href="/gated-reports"
+              href="/newsletter"
               className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"
             >
               Newsletter Signup

@@ -52,6 +52,12 @@ const availableReports: Report[] = [
 ]
 
 function ReportCard({ report }: { report: Report }) {
+  const mailtoLink = `mailto:reports@sfdan.org?subject=${encodeURIComponent(
+    `Report request: ${report.title}`
+  )}&body=${encodeURIComponent(
+    `Hi SFDAN team,\n\nI'd like access to the report: ${report.title}.\n\nThanks!`
+  )}`
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-2">
@@ -70,12 +76,15 @@ function ReportCard({ report }: { report: Report }) {
             day: 'numeric'
           })}
         </span>
-        <button className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1">
-          Download PDF
+        <a
+          href={mailtoLink}
+          className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+        >
+          Request PDF
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>
-        </button>
+        </a>
       </div>
     </div>
   )
@@ -172,13 +181,7 @@ export default function GatedReportsPage() {
             </div>
 
             <p className="text-center text-sm text-gray-500 mt-6">
-              Already have an account?{' '}
-              <button
-                onClick={() => {/* Trigger magic link resend */}}
-                className="text-blue-600 hover:text-blue-800 font-medium"
-              >
-                Sign in
-              </button>
+              Already subscribed? Enter your email above to receive a fresh access link.
             </p>
           </div>
         ) : (
