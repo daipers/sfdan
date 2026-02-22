@@ -85,6 +85,19 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
     confirmed_at TIMESTAMP WITH TIME ZONE
 );
 
+-- Table for analytics events (Phase 8)
+CREATE TABLE IF NOT EXISTS analytics_events (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    event_name TEXT NOT NULL,
+    journey TEXT,
+    step TEXT,
+    source TEXT,
+    path TEXT,
+    referrer TEXT,
+    metadata JSONB,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Add updated_at index and RLS policies for leads
 CREATE INDEX IF NOT EXISTS idx_leads_updated_at ON leads(updated_at);
 
@@ -95,6 +108,7 @@ ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE content_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE insights ENABLE ROW LEVEL SECURITY;
 ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
 
 -- Create indexes for performance
 CREATE INDEX IF NOT EXISTS idx_cached_awards_key ON cached_awards(cache_key);
@@ -109,6 +123,8 @@ CREATE INDEX IF NOT EXISTS idx_insights_type ON insights(type);
 CREATE INDEX IF NOT EXISTS idx_insights_generated_at ON insights(generated_at);
 CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_email ON newsletter_subscribers(email);
 CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_created_at ON newsletter_subscribers(created_at);
+CREATE INDEX IF NOT EXISTS idx_analytics_events_created_at ON analytics_events(created_at);
+CREATE INDEX IF NOT EXISTS idx_analytics_events_event_name ON analytics_events(event_name);
 
 -- ============================================
 -- RLS Policies for leads table
@@ -151,6 +167,18 @@ CREATE POLICY "Auth users can read insights"
 -- Allow service role inserts for insights
 CREATE POLICY "Service role can insert insights"
   ON insights FOR INSERT WITH CHECK (auth.role() = 'service_role');
+
+-- ============================================
+-- RLS Policies for analytics_events table
+-- ============================================
+
+-- Allow service role to insert analytics events
+CREATE POLICY "Service role can insert analytics events"
+  ON analytics_events FOR INSERT WITH CHECK (auth.role() = 'service_role');
+
+-- Allow service role to read analytics events
+CREATE POLICY "Service role can read analytics events"
+  ON analytics_events FOR SELECT USING (auth.role() = 'service_role');
 
 -- Create function to auto-update updated_at
 
