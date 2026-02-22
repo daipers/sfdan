@@ -1,0 +1,11 @@
+{
+  "crons": [
+    {
+      "path": "/api/insights/generate",
+      "schedule": "0 8 * * 1",
+      "headers": {
+        "x-insights-secret": "${INSIGHTS_CRON_SECRET}"
+      }
+    }
+  ]
+}
