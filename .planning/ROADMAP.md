@@ -177,6 +177,18 @@ Plans:
 - [ ] 08-02-PLAN.md — Journey lead capture CTAs + report polish
 - [ ] 08-03-PLAN.md — Journey analytics instrumentation + E2E verification
 
+### Phase 9: Stabilization and deployment hardening
+
+**Goal:** Production releases are stable with staged promotion, observability alerts, reliability safeguards, and strict configuration validation
+**Depends on:** Phase 8
+**Requirements:** STAB-01, STAB-02, STAB-03, STAB-04
+**Plans:** 3 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Observability, health checks, and config validation
+- [ ] 09-02-PLAN.md — Per-IP rate limiting at the edge
+- [ ] 09-03-PLAN.md — Release workflow docs, incident templates, and build protections
+
 ---
 
 *Roadmap created: 2026-02-20*
