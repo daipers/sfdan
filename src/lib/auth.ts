@@ -16,14 +16,18 @@ export interface LeadData {
  * Send magic link to user's email
  * Uses Supabase Auth's passwordless sign-in
  */
-export async function sendMagicLink(email: string): Promise<{ success: boolean; error?: string }> {
+export async function sendMagicLink(
+  email: string,
+  redirectPath: string = '/gated-reports'
+): Promise<{ success: boolean; error?: string }> {
   const supabase = createClient()
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const redirectTo = `${baseUrl}${redirectPath}`
   
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      // Redirect to the gated reports page after clicking the link
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/gated-reports`,
+      emailRedirectTo: redirectTo,
     },
   })
 
@@ -38,13 +42,18 @@ export async function sendMagicLink(email: string): Promise<{ success: boolean; 
 /**
  * Server-side function to send magic link
  */
-export async function sendMagicLinkServer(email: string): Promise<{ success: boolean; error?: string }> {
+export async function sendMagicLinkServer(
+  email: string,
+  redirectPath: string = '/gated-reports'
+): Promise<{ success: boolean; error?: string }> {
   const supabase = await createServerSupabaseClient()
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const redirectTo = `${baseUrl}${redirectPath}`
   
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/gated-reports`,
+      emailRedirectTo: redirectTo,
     },
   })
 
