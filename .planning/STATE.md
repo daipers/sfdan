@@ -4,16 +4,27 @@
 
 **Core Value:** Apply transparent, defensible procedural compliance scoring to IIJA federal infrastructure spending to help watchdog audiences identify potential issues and benchmark project integrity.
 
-**Current Focus:** Phase 6 complete - All phases finished
+**Current Focus:** Phase 7 in progress - Content & Newsletter
+
+## Execution State
+
+**Current Phase:** 07
+**Current Phase Name:** Content & Newsletter
+**Status:** Phase complete — ready for verification
+**Current Plan:** 3
+**Total Plans in Phase:** 3
+**Progress:** [█████████░] 93%
+**Last Activity:** 2026-02-22
+**Last Activity Description:** Completed 07-02 plan execution
 
 ## Current Position
 
 | Attribute | Value |
 |-----------|-------|
-| Phase | 6 - Polish & Quality |
-| Plan | Complete (1/1 plans) |
-| Status | Completed |
-| Progress | 100% (1/1 plans) |
+| Phase | 7 - Content & Newsletter |
+| Plan | 2/3 plans |
+| Status | In Progress |
+| Progress | 33% (1/3 plans) |
 
 ## Performance Metrics
 
@@ -25,6 +36,8 @@
 | Coverage | 100% |
 | Unit Tests | 56 |
 | E2E Tests | 7 |
+| Phase 07-content-newsletter P02 | 4 min | 5 tasks | 6 files |
+| Phase 07 P01 | 5 min | 6 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -36,6 +49,14 @@
 - **Phase 4:** Details & Lead Gen (PROJ + LEAD + DOC = 11 requirements)
 - **Phase 5:** Visualization & Self-Assessment (VIZ-03, SELF-01 to SELF-03, CONT-02)
 - **Phase 6:** Polish & Quality - Tests, error pages, SEO
+- [Phase 07-content-newsletter]: Run insights cron weekly on Mondays at 08:00 UTC
+- [Phase 07-content-newsletter]: Use x-insights-secret header for cron authorization
+- [Phase 07]: Newsletter magic-link confirmations redirect to /newsletter to keep users on the landing page.
+- [Phase 07]: Newsletter interests are captured as checkbox selections stored in a text[] field for flexible filtering.
+- [Phase 07]: SiteFooter is rendered in RootLayout to provide consistent newsletter entry points.
+
+### Roadmap Evolution
+- Phase 8 added: 8 functionality expansion, we are going to make sure it works exactly like we want it to. We want it completely functional
 
 ### Key Dependencies
 - USASpending.gov API v2 - primary data source
@@ -52,7 +73,7 @@
 
 ## Session Continuity
 
-**Last session:** 2026-02-22T01:54:34.607Z
+**Last session:** 2026-02-22T02:11:11.775Z
 **Next action:** Project complete - ready for deployment
 
 ---

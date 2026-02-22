@@ -8,6 +8,7 @@
 - [x] **Phase 4: Details & Lead Gen** - Build project detail pages and email-gated lead generation
 - [x] **Phase 5: Visualization & Self-Assessment** - Add agency comparison charts, self-assessment tool, and data export functionality
 - [x] **Phase 6: Polish & Quality** - Add tests, error pages, and improve SEO metadata
+- [ ] **Phase 7: Content & Newsletter** - Content generation system for publishing data-driven findings
 
 ---
 
@@ -122,7 +123,19 @@
 
 ---
 
-## Progress
+### Phase 7: Content & Newsletter
+**Goal:** Content generation system for publishing data-driven findings  
+**Depends on:** Phase 6  
+
+**Success Criteria** (what must be TRUE):
+- Newsletter signup form exists
+- Automated insights can be generated from project data
+- Content pages can be published with data-driven findings
+
+**Plans:**
+- [ ] 07-01-PLAN.md — Newsletter signup and email management
+- [ ] 07-02-PLAN.md — Automated insights generation
+- [ ] 07-03-PLAN.md — Content publishing system
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -132,14 +145,15 @@
 | 4. Details & Lead Gen | 3/3 | Completed | 2026-02-21 |
 | 5. Visualization & Self-Assessment | 3/3 | Completed | 2026-02-21 |
 | 6. Polish & Quality | 1/1 | Completed | 2026-02-21 |
+| 7. Content & Newsletter | 0/3 | Planned | — |
 
 ---
 
 ## Dependencies
 
 ```
-Phase 1 ─────> Phase 2 ─────> Phase 3 ─────> Phase 4 ─────> Phase 5 ─────> Phase 6
-   (data)       (scoring)       (UI)          (gated)       (viz)          (polish)
+Phase 1 ─────> Phase 2 ─────> Phase 3 ─────> Phase 4 ─────> Phase 5 ─────> Phase 6 ─────> Phase 7
+   (data)       (scoring)       (UI)          (gated)       (viz)          (polish)       (content)
 ```
 
 ---
@@ -150,6 +164,15 @@ Phase 1 ─────> Phase 2 ─────> Phase 3 ─────> Phase
 - **Timeline:** 6-8 weeks
 - **Audience:** Government watchdog journalists, municipal finance officers, inspector general community
 - **Core value:** Defensible procedural compliance scoring
+
+### Phase 8: 8 functionality expansion, we are going to make sure it works exactly like we want it to. We want it completely functional
+
+**Goal:** [To be planned]
+**Depends on:** Phase 7
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 8 to break down)
 
 ---
 
