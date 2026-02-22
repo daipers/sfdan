@@ -40,6 +40,8 @@
 
 **Build/Dev:**
 - ESLint 9.x - JavaScript/TypeScript linting
+- @typescript-eslint/eslint-plugin - TypeScript ESLint rules
+- @typescript-eslint/parser - TypeScript ESLint parser
 - TypeScript 5.x - Type checking and transpilation
 
 ## Key Dependencies
@@ -60,6 +62,9 @@
 **Export & Utilities:**
 - xlsx 0.18.5 - Excel file generation for data export
 
+**Observability:**
+- @sentry/nextjs - Error tracking for client, server, and edge runtimes
+
 **Styling:**
 - tailwindcss 3.4.1 - CSS framework
 - autoprefixer 10.4.24 - CSS vendor prefixing
@@ -71,7 +76,10 @@
 - Key environment variables expected:
   - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
+  - `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key for server checks
   - `NEXT_PUBLIC_SITE_URL` - Site URL for redirects
+  - `SENTRY_DSN` - Sentry project DSN
+  - `SENTRY_ENVIRONMENT` - Sentry environment tag (staging/production)
 
 **Build:**
 - `next.config.ts` - Next.js configuration (minimal, mostly defaults)

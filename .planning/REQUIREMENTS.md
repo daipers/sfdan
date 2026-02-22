@@ -69,7 +69,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Stabilization & Deployment
 
 - [x] **STAB-01**: Staging + production release workflow with manual approval and blue/green promotion
-- [ ] **STAB-02**: Error/failed request monitoring with warning/critical alerts to email + Slack
+- [x] **STAB-02**: Error/failed request monitoring with warning/critical alerts to email + Slack
 - [x] **STAB-03**: Reliability safeguards (health checks, rollback trigger, per-IP rate limiting)
 - [x] **STAB-04**: Environment/config hardening (secret storage, startup validation, build/test gates, edge/runtime config)
 
@@ -151,7 +151,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HARD-03 | Phase 8 | Complete |
 | HARD-04 | Phase 8 | Complete |
 | STAB-01 | Phase 9 | Complete |
-| STAB-02 | Phase 9 | Pending |
+| STAB-02 | Phase 9 | Complete |
 | STAB-03 | Phase 9 | Complete |
 | STAB-04 | Phase 9 | Complete |
 

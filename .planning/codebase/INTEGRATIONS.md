@@ -59,12 +59,19 @@
 ## Monitoring & Observability
 
 **Error Tracking:**
-- Not detected (no Sentry, Bugsnag, or similar)
+- Sentry
+  - Client/server/edge configs: `sentry.client.config.ts`, `sentry.server.config.ts`, `sentry.edge.config.ts`
+  - Instrumentation hook: `src/instrumentation.ts`
+  - Environment tags via `SENTRY_ENVIRONMENT`
 
 **Logs:**
 - Console logging via `console.error` and `console.warn`
 - Server-side: Next.js server logs
 - Deployment: Netlify function logs
+
+**Uptime:**
+- Health endpoint: `src/app/api/health/route.ts`
+- Dependency checks: Supabase + USASpending
 
 **Analytics:**
 - Not detected in codebase
@@ -91,7 +98,10 @@
 **Required env vars:**
 - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous (public) key
+- `SUPABASE_SERVICE_ROLE_KEY` - Server-side Supabase service role key
 - `NEXT_PUBLIC_SITE_URL` - Production URL for auth redirects (optional, defaults to localhost)
+- `SENTRY_DSN` - Sentry project DSN
+- `SENTRY_ENVIRONMENT` - Sentry environment tag
 
 **Secrets location:**
 - `.env.local` (local development)
