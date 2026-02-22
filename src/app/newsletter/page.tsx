@@ -82,11 +82,6 @@ export default function NewsletterPage() {
         </div>
       </main>
 
-      <footer className="bg-white border-t border-gray-200 mt-auto">
-        <div className="max-w-5xl mx-auto px-4 py-6 text-center text-sm text-gray-500">
-          <p>SFDAN - Federal Funding Accountability Dashboard</p>
-        </div>
-      </footer>
     </div>
   )
 }

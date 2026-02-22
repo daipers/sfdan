@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { SiteFooter } from '@/components/SiteFooter'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sfdan.org'),
@@ -63,7 +64,12 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="antialiased">
-        <NuqsAdapter>{children}</NuqsAdapter>
+        <NuqsAdapter>
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-1">{children}</div>
+            <SiteFooter />
+          </div>
+        </NuqsAdapter>
       </body>
     </html>
   );
