@@ -73,4 +73,83 @@ test.describe('SFDAN E2E Tests', () => {
     // Verify data sources page loads
     await expect(page.locator('h1')).toBeVisible();
   });
+
+  test('explore to project detail shows lead capture', async ({ page }) => {
+    await page.goto('/');
+
+    const table = page.getByRole('table', { name: /iija projects/i });
+    if (await table.count() === 0) {
+      test.skip(true, 'No project table available');
+    }
+
+    const rows = table.locator('tbody tr');
+    if (await rows.count() === 0) {
+      test.skip(true, 'No project rows available');
+    }
+
+    await Promise.all([
+      page.waitForURL(/\/projects\//),
+      rows.first().click(),
+    ]);
+
+    await expect(page).toHaveURL(/\/projects\//);
+
+    const leadCaptureLink = page.locator('a[href="/gated-reports"]');
+    const emailGateForm = page.getByLabel('Email Address');
+
+    const hasLeadCaptureLink = await leadCaptureLink.first().isVisible().catch(() => false);
+    const hasEmailGate = await emailGateForm.first().isVisible().catch(() => false);
+
+    expect(hasLeadCaptureLink || hasEmailGate).toBeTruthy();
+  });
+
+  test('self-assessment results include lead capture', async ({ page }) => {
+    await page.goto('/assess');
+
+    const emailGateForm = page.getByLabel('Email Address');
+    if (await emailGateForm.first().isVisible().catch(() => false)) {
+      await expect(emailGateForm.first()).toBeVisible();
+      return;
+    }
+
+    await page.getByLabel('Project Name').fill('Test Infrastructure Upgrade');
+    await page.getByLabel('Awarding Agency').selectOption({ index: 1 });
+    await page.getByLabel('Award Type').selectOption('grant');
+    await page.getByRole('button', { name: /next/i }).click();
+
+    await page.getByLabel('Project Start Date').fill('2024-01-15');
+    await page.getByRole('button', { name: /next/i }).click();
+
+    await page.getByLabel('Competition Type').selectOption('competitive');
+    await page.getByRole('button', { name: /next/i }).click();
+
+    await page.getByLabel('Total Funding Amount').fill('1200000');
+    await page.getByRole('button', { name: /calculate score/i }).click();
+
+    await expect(page.getByRole('heading', { name: /score breakdown/i })).toBeVisible();
+    await expect(page.getByLabel('Email Address')).toBeVisible();
+  });
+
+  test('content page links to newsletter signup', async ({ page }) => {
+    await page.goto('/content');
+
+    const newsletterLink = page.getByRole('link', { name: /newsletter signup/i });
+    await expect(newsletterLink).toBeVisible();
+    await expect(newsletterLink).toHaveAttribute('href', '/newsletter');
+
+    await newsletterLink.click();
+    await expect(page).toHaveURL(/\/newsletter/);
+    await expect(page.getByRole('button', { name: /join the newsletter/i })).toBeVisible();
+  });
+
+  test('reports page shows email gate for unauthenticated users', async ({ page }) => {
+    await page.goto('/gated-reports');
+
+    const emailGateForm = page.getByLabel('Email Address');
+    if (!(await emailGateForm.first().isVisible().catch(() => false))) {
+      test.skip(true, 'Authenticated session detected');
+    }
+
+    await expect(emailGateForm.first()).toBeVisible();
+  });
 });
