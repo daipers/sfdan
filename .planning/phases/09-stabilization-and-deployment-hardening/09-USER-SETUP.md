@@ -12,12 +12,18 @@ Complete these items for the integration to function. Claude automated everythin
 |--------|----------|--------|--------|
 | [ ] | `SENTRY_DSN` | Sentry Project Settings → Client Keys (DSN) | `.env.local` |
 | [ ] | `SENTRY_ENVIRONMENT` | Set to `staging`/`production` per environment | `.env.local` |
+| [ ] | `UPSTASH_REDIS_REST_URL` | Upstash Redis database → REST URL | `.env.local` |
+| [ ] | `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis database → REST Token | `.env.local` |
 
 ## Account Setup
 
 - [ ] **Create Sentry project** (if needed)
   - URL: https://sentry.io/signup/
   - Skip if: Project already exists for this app
+
+- [ ] **Create Upstash account** (if needed)
+  - URL: https://upstash.com/
+  - Skip if: Upstash account already exists
 
 ## Dashboard Configuration
 
@@ -33,6 +39,11 @@ Complete these items for the integration to function. Claude automated everythin
   - Location: Sentry → Uptime Monitoring
   - Set to: `https://[your-domain]/api/health`
 
+- [ ] **Create Upstash Redis database for rate limiting**
+  - Location: Upstash → Redis → Create Database
+  - Region: Closest to your hosting region
+  - Notes: Copy REST URL and REST Token into `.env.local`
+
 ## Verification
 
 After completing setup, verify with:
@@ -40,6 +51,7 @@ After completing setup, verify with:
 ```bash
 # Confirm env vars present
 grep SENTRY .env.local
+grep UPSTASH_REDIS_REST_ .env.local
 
 # Confirm health endpoint responds
 curl -i https://[your-domain]/api/health
@@ -47,6 +59,7 @@ curl -i https://[your-domain]/api/health
 
 Expected results:
 - `SENTRY_DSN` and `SENTRY_ENVIRONMENT` are set
+- `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` are set
 - `/api/health` returns JSON with `status` and `checks`
 
 ---

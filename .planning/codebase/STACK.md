@@ -1,6 +1,6 @@
 # Technology Stack
 
-**Analysis Date:** 2026-02-21
+**Analysis Date:** 2026-02-22
 
 ## Languages
 
@@ -65,6 +65,10 @@
 **Observability:**
 - @sentry/nextjs - Error tracking for client, server, and edge runtimes
 
+**Reliability:**
+- @upstash/ratelimit - Edge-friendly rate limiting utilities
+- @upstash/redis - Upstash Redis REST client for edge usage
+
 **Styling:**
 - tailwindcss 3.4.1 - CSS framework
 - autoprefixer 10.4.24 - CSS vendor prefixing
@@ -80,6 +84,8 @@
   - `NEXT_PUBLIC_SITE_URL` - Site URL for redirects
   - `SENTRY_DSN` - Sentry project DSN
   - `SENTRY_ENVIRONMENT` - Sentry environment tag (staging/production)
+  - `UPSTASH_REDIS_REST_URL` - Upstash Redis REST endpoint for rate limiting
+  - `UPSTASH_REDIS_REST_TOKEN` - Upstash Redis REST token for rate limiting
 
 **Build:**
 - `next.config.ts` - Next.js configuration (minimal, mostly defaults)
