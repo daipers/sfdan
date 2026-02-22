@@ -59,6 +59,13 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **DOC-02**: FAQ section addressing scoring questions
 - [ ] **DOC-03**: Data sources and update frequency page
 
+### Hardening & Analytics
+
+- [x] **HARD-01**: Priority journeys complete (Explore → Detail → Lead capture; Content → Newsletter signup; Self-assessment → Results → Lead capture)
+- [ ] **HARD-02**: Analytics events recorded for each priority journey step
+- [x] **HARD-03**: User-facing flows have no dead actions and meet production-ready polish
+- [ ] **HARD-04**: Journey regression checks exist for critical routes and CTAs
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
@@ -132,6 +139,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DOC-01 | Phase 4 | Pending |
 | DOC-02 | Phase 4 | Pending |
 | DOC-03 | Phase 4 | Pending |
+| HARD-01 | Phase 8 | Complete |
+| HARD-02 | Phase 8 | Pending |
+| HARD-03 | Phase 8 | Complete |
+| HARD-04 | Phase 8 | Pending |
 
 **Coverage:**
 - v1 requirements: 34 total

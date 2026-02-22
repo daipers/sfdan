@@ -167,12 +167,15 @@ Phase 1 ─────> Phase 2 ─────> Phase 3 ─────> Phase
 
 ### Phase 8: 8 functionality expansion, we are going to make sure it works exactly like we want it to. We want it completely functional
 
-**Goal:** [To be planned]
+**Goal:** Priority journeys are fully functional, production-ready, and instrumented with analytics
 **Depends on:** Phase 7
-**Plans:** 0 plans
+**Requirements:** HARD-01, HARD-02, HARD-03, HARD-04
+**Plans:** 3 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 8 to break down)
+- [ ] 08-01-PLAN.md — Analytics event storage + API logging
+- [ ] 08-02-PLAN.md — Journey lead capture CTAs + report polish
+- [ ] 08-03-PLAN.md — Journey analytics instrumentation + E2E verification
 
 ---
 
