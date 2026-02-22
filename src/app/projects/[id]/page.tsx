@@ -162,6 +162,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               title="Request the detailed compliance report"
               description="See a full procedural audit with score drivers, timeline risks, and tailored next steps for this award."
               linkLabel="Get the full report"
+              journey="project_detail"
+              step="report_cta"
+              source="project_detail"
             />
             {/* Source Data Link */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">

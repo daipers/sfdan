@@ -1,7 +1,7 @@
 // src/components/AssessmentWizard.tsx
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   SelfAssessmentInput,
   calculateSelfAssessmentScore,
@@ -10,6 +10,7 @@ import {
   compareToBenchmark
 } from '@/lib/self-assessment'
 import { LeadCaptureCard } from '@/components/LeadCaptureCard'
+import { trackEvent } from '@/lib/analytics'
 
 type Step = 'basic' | 'timeline' | 'competition' | 'funding' | 'results'
 
@@ -42,6 +43,7 @@ export function AssessmentWizard({ onComplete }: { onComplete?: () => void }) {
   const [formData, setFormData] = useState<FormData>(initialFormData)
   const [scoreResult, setScoreResult] = useState<ReturnType<typeof calculateSelfAssessmentScore> | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const hasTrackedResults = useRef(false)
 
   const currentStepIndex = steps.findIndex(s => s.key === currentStep)
 
@@ -105,6 +107,12 @@ export function AssessmentWizard({ onComplete }: { onComplete?: () => void }) {
     if (currentIndex < steps.length - 1) {
       setCurrentStep(steps[currentIndex + 1].key)
     } else {
+      void trackEvent({
+        eventName: 'cta_click',
+        journey: 'self_assessment',
+        step: 'calculate_score',
+        source: 'assessment_wizard',
+      })
       // Calculate score on final step
       calculateAndShowResults()
     }
@@ -125,6 +133,18 @@ export function AssessmentWizard({ onComplete }: { onComplete?: () => void }) {
       onComplete()
     }
   }
+
+  useEffect(() => {
+    if (currentStep === 'results' && !hasTrackedResults.current) {
+      hasTrackedResults.current = true
+      void trackEvent({
+        eventName: 'view_results',
+        journey: 'self_assessment',
+        step: 'results',
+        source: 'assessment_wizard',
+      })
+    }
+  }, [currentStep])
 
   const handleReset = () => {
     setFormData(initialFormData)
@@ -502,6 +522,9 @@ export function AssessmentWizard({ onComplete }: { onComplete?: () => void }) {
           mode="form"
           title="Get your detailed compliance report"
           description="Receive a full report with score drivers, risks, and suggested next steps tailored to your inputs."
+          journey="self_assessment"
+          step="report_request"
+          source="assessment_wizard"
         />
 
         {/* Actions */}

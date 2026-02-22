@@ -2,10 +2,14 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import { trackEvent } from '@/lib/analytics'
 
 interface EmailGateFormProps {
   onSuccess?: () => void
   showOrganization?: boolean
+  journey?: string
+  step?: string
+  source?: string
 }
 
 interface FormData {
@@ -24,7 +28,13 @@ const roleOptions = [
   { value: 'other', label: 'Other' },
 ]
 
-export function EmailGateForm({ onSuccess, showOrganization = true }: EmailGateFormProps) {
+export function EmailGateForm({
+  onSuccess,
+  showOrganization = true,
+  journey = 'lead_capture',
+  step = 'email_gate_submit',
+  source = 'email_gate_form',
+}: EmailGateFormProps) {
   const [formData, setFormData] = useState<FormData>({
     email: '',
     organization: '',
@@ -70,6 +80,13 @@ export function EmailGateForm({ onSuccess, showOrganization = true }: EmailGateF
       if (!response.ok) {
         throw new Error(data.error || 'Failed to send magic link')
       }
+
+      void trackEvent({
+        eventName: 'form_submit',
+        journey,
+        step,
+        source,
+      })
 
       setSuccess(true)
       setFormData({ email: '', organization: '', role: '' })

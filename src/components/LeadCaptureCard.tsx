@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { EmailGateForm } from '@/components/EmailGateForm'
+import { trackEvent } from '@/lib/analytics'
 
 type LeadCaptureMode = 'link' | 'form'
 
@@ -12,6 +13,9 @@ interface LeadCaptureCardProps {
   linkHref?: string
   linkLabel?: string
   showOrganization?: boolean
+  journey?: string
+  step?: string
+  source?: string
 }
 
 export function LeadCaptureCard({
@@ -21,7 +25,13 @@ export function LeadCaptureCard({
   linkHref = '/gated-reports',
   linkLabel = 'Request the full report',
   showOrganization = true,
+  journey,
+  step,
+  source,
 }: LeadCaptureCardProps) {
+  const resolvedJourney = journey ?? 'lead_capture'
+  const resolvedSource = source ?? 'lead_capture_card'
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
       <div className="space-y-3">
@@ -34,12 +44,26 @@ export function LeadCaptureCard({
         </div>
         {mode === 'form' ? (
           <div className="pt-2">
-            <EmailGateForm showOrganization={showOrganization} />
+            <EmailGateForm
+              showOrganization={showOrganization}
+              journey={resolvedJourney}
+              step={step ?? 'email_gate_submit'}
+              source={resolvedSource}
+            />
           </div>
         ) : (
           <Link
             href={linkHref}
             className="inline-flex items-center justify-center w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            onClick={() => {
+              void trackEvent({
+                eventName: 'cta_click',
+                journey: resolvedJourney,
+                step: step ?? 'report_cta',
+                source: resolvedSource,
+                metadata: { destination: linkHref },
+              })
+            }}
           >
             {linkLabel}
           </Link>

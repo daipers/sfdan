@@ -12,6 +12,7 @@ import {
 import Link from 'next/link'
 import { getScoreColorClass, getScoreDescription } from '@/lib/scoring'
 import { ExportButton } from '@/components/ExportButton'
+import { trackEvent } from '@/lib/analytics'
 
 interface Award {
   'Award ID': string
@@ -187,6 +188,15 @@ export function DataTable({
                   className="hover:bg-gray-50 cursor-pointer"
                   onClick={() => {
                     const awardId = row.original['Award ID']
+                    void trackEvent({
+                      eventName: 'detail_open',
+                      journey: 'explore',
+                      step: 'project_row',
+                      source: 'data_table',
+                      metadata: {
+                        award_id: awardId,
+                      },
+                    })
                     // Navigate to project detail page
                     window.location.href = `/projects/${encodeURIComponent(awardId)}`
                   }}

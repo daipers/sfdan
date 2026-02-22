@@ -184,7 +184,12 @@ export default function GatedReportsPage() {
             </div>
 
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <EmailGateForm showOrganization={true} />
+              <EmailGateForm
+                showOrganization={true}
+                journey="gated_reports"
+                step="access_form"
+                source="gated_reports"
+              />
             </div>
 
             <p className="text-center text-sm text-gray-500 mt-6">

@@ -2,6 +2,7 @@
 'use client'
 
 import { FormEvent, useState } from 'react'
+import { trackEvent } from '@/lib/analytics'
 
 interface NewsletterFormData {
   email: string
@@ -76,6 +77,16 @@ export function NewsletterSignupForm() {
       if (!response.ok) {
         throw new Error(data.error || 'Failed to submit signup')
       }
+
+      void trackEvent({
+        eventName: 'form_submit',
+        journey: 'newsletter',
+        step: 'signup',
+        source: 'newsletter_form',
+        metadata: {
+          interest_count: formData.interests.length,
+        },
+      })
 
       setSuccessEmail(formData.email)
       setSuccess(true)
