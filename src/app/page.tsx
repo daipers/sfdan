@@ -8,6 +8,7 @@ import { DataCurrencyBadge } from '@/components/DataCurrencyBadge'
 import { DataTable } from '@/components/DataTable'
 import { FilterSidebar } from '@/components/FilterSidebar'
 import { DashboardMetrics } from '@/components/DashboardMetrics'
+import { SiteFooter } from '@/components/SiteFooter'
 import { useQueryStates, parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs'
 import { PaginationState, SortingState } from '@tanstack/react-table'
 
@@ -75,8 +76,9 @@ export default function HomePage({ searchParams }: { searchParams: Promise<Recor
   }]
 
   return (
-    <main className="min-h-screen p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
+    <>
+      <main className="min-h-screen p-4 md:p-8">
+        <div className="max-w-7xl mx-auto">
         <header className="mb-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
@@ -90,6 +92,12 @@ export default function HomePage({ searchParams }: { searchParams: Promise<Recor
               </p>
             </div>
             <nav className="flex flex-wrap gap-4 text-sm">
+              <Link
+                href="/content"
+                className="text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
+              >
+                Findings
+              </Link>
               <Link
                 href="/assess"
                 className="text-blue-600 hover:text-blue-800 underline whitespace-nowrap"
@@ -213,7 +221,9 @@ export default function HomePage({ searchParams }: { searchParams: Promise<Recor
             </div>
           </div>
         )}
-      </div>
-    </main>
+        </div>
+      </main>
+      <SiteFooter />
+    </>
   )
 }
