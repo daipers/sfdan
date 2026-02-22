@@ -5,6 +5,7 @@ import { fetchAwardById, AwardData } from '@/lib/usaspending'
 import { getScoreColorClass, getScoreDescription, getScoreExplanation } from '@/lib/scoring'
 import { ProjectScoreBreakdown } from '@/components/ProjectScoreBreakdown'
 import { ProjectTimeline } from '@/components/ProjectTimeline'
+import { LeadCaptureCard } from '@/components/LeadCaptureCard'
 
 interface ProjectPageProps {
   params: Promise<{ id: string }>
@@ -150,6 +151,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           
           {/* Sidebar */}
           <div className="space-y-6">
+            <LeadCaptureCard
+              title="Request the detailed compliance report"
+              description="See a full procedural audit with score drivers, timeline risks, and tailored next steps for this award."
+              linkLabel="Get the full report"
+            />
             {/* Source Data Link */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <h2 className="text-lg font-semibold mb-4">Source Data</h2>

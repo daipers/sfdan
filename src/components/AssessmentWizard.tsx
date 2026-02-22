@@ -2,13 +2,14 @@
 'use client'
 
 import { useState } from 'react'
-import { 
-  SelfAssessmentInput, 
-  calculateSelfAssessmentScore, 
+import {
+  SelfAssessmentInput,
+  calculateSelfAssessmentScore,
   agencyOptions,
   getBenchmarks,
-  compareToBenchmark 
+  compareToBenchmark
 } from '@/lib/self-assessment'
+import { LeadCaptureCard } from '@/components/LeadCaptureCard'
 
 type Step = 'basic' | 'timeline' | 'competition' | 'funding' | 'results'
 
@@ -496,6 +497,12 @@ export function AssessmentWizard({ onComplete }: { onComplete?: () => void }) {
             </ul>
           </div>
         )}
+
+        <LeadCaptureCard
+          mode="form"
+          title="Get your detailed compliance report"
+          description="Receive a full report with score drivers, risks, and suggested next steps tailored to your inputs."
+        />
 
         {/* Actions */}
         <div className="flex gap-3 pt-4">
