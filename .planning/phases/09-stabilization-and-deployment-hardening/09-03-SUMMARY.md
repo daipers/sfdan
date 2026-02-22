@@ -67,7 +67,7 @@ Each task was committed atomically:
 2. **Task 2: Add incident log and postmortem templates** - `f1cb2642` (docs)
 3. **Task 3: Enforce build protections on Netlify** - `942519cc` (chore)
 
-**Plan metadata:** `TBD` (docs: complete plan)
+**Plan metadata:** `8b2e06a0` (docs: complete plan)
 
 ## Files Created/Modified
 - `docs/operations/release-workflow.md` - Blue/green promotion steps, health gate, rollback checklist
