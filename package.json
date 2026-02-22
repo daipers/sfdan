@@ -17,6 +17,8 @@
     "@supabase/supabase-js": "^2.97.0",
     "@tanstack/react-table": "^8.21.3",
     "@tremor/react": "^4.0.0-beta-tremor-v4.4",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.36.2",
     "autoprefixer": "^10.4.24",
     "date-fns": "^4.1.0",
     "next": "^16.1.6",
