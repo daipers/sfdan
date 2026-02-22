@@ -33,6 +33,20 @@ CREATE TABLE IF NOT EXISTS leads (
     verified_at TIMESTAMP WITH TIME ZONE
 );
 
+-- Table for newsletter subscribers (Phase 7)
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email TEXT UNIQUE NOT NULL,
+    organization TEXT,
+    role TEXT,
+    interests TEXT[] DEFAULT ARRAY[]::TEXT[],
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed')),
+    source TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    confirmed_at TIMESTAMP WITH TIME ZONE
+);
+
 -- Add updated_at index and RLS policies for leads
 CREATE INDEX IF NOT EXISTS idx_leads_updated_at ON leads(updated_at);
 
@@ -40,12 +54,15 @@ CREATE INDEX IF NOT EXISTS idx_leads_updated_at ON leads(updated_at);
 ALTER TABLE cached_awards ENABLE ROW LEVEL SECURITY;
 ALTER TABLE sync_status ENABLE ROW LEVEL SECURITY;
 ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 
 -- Create indexes for performance
 CREATE INDEX IF NOT EXISTS idx_cached_awards_key ON cached_awards(cache_key);
 CREATE INDEX IF NOT EXISTS idx_cached_awards_expires ON cached_awards(expires_at) WHERE expires_at IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_leads_email ON leads(email);
 CREATE INDEX IF NOT EXISTS idx_leads_updated_at ON leads(updated_at);
+CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_email ON newsletter_subscribers(email);
+CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_created_at ON newsletter_subscribers(created_at);
 
 -- ============================================
 -- RLS Policies for leads table
@@ -78,6 +95,38 @@ CREATE TRIGGER leads_updated_at_trigger
   BEFORE UPDATE ON leads
   FOR EACH ROW
   EXECUTE FUNCTION update_leads_updated_at();
+
+CREATE OR REPLACE FUNCTION update_newsletter_subscribers_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER newsletter_subscribers_updated_at_trigger
+  BEFORE UPDATE ON newsletter_subscribers
+  FOR EACH ROW
+  EXECUTE FUNCTION update_newsletter_subscribers_updated_at();
+
+-- ============================================
+-- RLS Policies for newsletter_subscribers table
+-- ============================================
+
+-- Allow anyone to create a newsletter signup
+CREATE POLICY "Anyone can create newsletter subscriber"
+  ON newsletter_subscribers FOR INSERT WITH CHECK (true);
+
+-- Allow authenticated users to read newsletter subscribers
+CREATE POLICY "Auth users can read newsletter subscribers"
+  ON newsletter_subscribers FOR SELECT USING (auth.role() = 'authenticated');
+
+-- Allow authenticated users to update their own subscriber record
+CREATE POLICY "Users can update own newsletter subscriber"
+  ON newsletter_subscribers FOR UPDATE USING (
+    auth.role() = 'authenticated'
+    AND (auth.jwt() ->> 'email') = email
+  );
 
 -- Create function to clean expired cache
 CREATE OR REPLACE FUNCTION clean_expired_cache()
