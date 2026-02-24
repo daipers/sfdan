@@ -145,7 +145,11 @@
 | 4. Details & Lead Gen | 3/3 | Completed | 2026-02-21 |
 | 5. Visualization & Self-Assessment | 3/3 | Completed | 2026-02-21 |
 | 6. Polish & Quality | 1/1 | Completed | 2026-02-21 |
-| 7. Content & Newsletter | 0/3 | Planned | — |
+| 7. Content & Newsletter | 3/3 | Completed | 2026-02-22 |
+| 8. Functionality Expansion | 3/3 | Completed | 2026-02-22 |
+| 9. Stabilization & Deployment Hardening | 3/3 | Completed | 2026-02-22 |
+| 10. Fix Netlify 500 Error | 1/1 | Completed | 2026-02-22 |
+| 11. GitHub Pages Migration | 0/3 | Planned | — |
 
 ---
 
@@ -188,6 +192,29 @@ Plans:
 - [ ] 09-01-PLAN.md — Observability, health checks, and config validation
 - [ ] 09-02-PLAN.md — Per-IP rate limiting at the edge
 - [ ] 09-03-PLAN.md — Release workflow docs, incident templates, and build protections
+
+### Phase 10: Fix Netlify 500 error
+
+**Goal:** Fix Netlify deployment 500 Internal Server Error
+**Depends on:** Phase 9
+**Plans:** 1 plan
+
+Plans:
+- [x] 10-01-PLAN.md — Disable instrumentation hook causing startup crash
+
+---
+
+### Phase 11: GitHub Pages Migration
+
+**Goal:** Migrate from Netlify to GitHub Pages with static export configuration
+**Depends on:** Phase 10
+**Requirements:** Static export, GitHub Actions deployment, client-side API conversion
+**Plans:** 3 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — Configure Next.js for static export and GitHub Actions
+- [ ] 11-02-PLAN.md — Convert API routes to client-side functionality
+- [ ] 11-03-PLAN.md — Environment setup and deployment verification
 
 ---
 
