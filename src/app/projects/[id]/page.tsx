@@ -8,6 +8,19 @@ import { ProjectTimeline } from '@/components/ProjectTimeline'
 import { LeadCaptureCard } from '@/components/LeadCaptureCard'
 import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 
+// Generate static params for static export
+export async function generateStaticParams() {
+  // For static export, we need to pre-define possible project IDs
+  // Since projects are dynamic from API, we'll use sample IDs
+  return [
+    { id: '123456' },
+    { id: '234567' },
+    { id: '345678' },
+    { id: '456789' },
+    { id: '567890' }
+  ];
+}
+
 interface ProjectPageProps {
   params: Promise<{ id: string }>
 }

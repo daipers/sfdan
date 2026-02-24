@@ -8,6 +8,9 @@ import { NextResponse } from 'next/server';
 import { fetchAwards } from '@/lib/usaspending';
 import { calculateAgencyStats, AgencyStats } from '@/lib/agency-stats';
 
+// Force static export for GitHub Pages compatibility
+export const dynamic = "force-static";
+
 // Cache for agency stats
 let cachedStats: { data: AgencyStats[]; timestamp: number } | null = null;
 const CACHE_DURATION = 3600 * 1000; // 1 hour in milliseconds

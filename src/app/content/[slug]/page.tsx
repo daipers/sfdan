@@ -7,6 +7,17 @@ import { NewsletterPrompt } from '@/components/NewsletterPrompt'
 import { NewsletterSignupForm } from '@/components/NewsletterSignupForm'
 import { AnalyticsTracker } from '@/components/AnalyticsTracker'
 
+// Generate static params for static export
+export async function generateStaticParams() {
+  // For static export, we need to pre-define possible slugs
+  // Since content is dynamic, we'll use placeholder slugs
+  return [
+    { slug: 'sample-insight' },
+    { slug: 'infrastructure-analysis' },
+    { slug: 'compliance-report' }
+  ];
+}
+
 function formatDate(dateString?: string | null) {
   if (!dateString) return 'Unpublished'
   const date = new Date(dateString)

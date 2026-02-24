@@ -3,6 +3,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createContentDraftFromInsight, getPublishedContent, type ContentFilters, type InsightRecord } from '@/lib/content'
 import { isAdminEmail } from '@/lib/admin'
 
+// Force static export for GitHub Pages compatibility
+export const dynamic = "force-static";
+
 function getAdminEmail(request: NextRequest, body: Record<string, unknown>) {
   const headerEmail = request.headers.get('x-admin-email')
   if (headerEmail) return headerEmail

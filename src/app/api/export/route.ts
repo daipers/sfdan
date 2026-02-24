@@ -4,7 +4,7 @@ import { searchProjects, SearchParams } from '@/lib/api'
 import { generateCSV, generateExcel, ExportAward } from '@/lib/export'
 
 export const runtime = 'nodejs'
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-static"
 
 // Maximum number of rows to export
 const MAX_EXPORT_ROWS = 10000

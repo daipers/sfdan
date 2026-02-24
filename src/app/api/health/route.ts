@@ -2,6 +2,7 @@ import { checkSupabase, checkUsaspending } from "@/lib/health";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
+export const dynamic = "force-static";
 
 export async function GET() {
   const [supabase, usaspending] = await Promise.all([

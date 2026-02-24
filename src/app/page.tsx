@@ -14,8 +14,9 @@ import { useQueryStates, parseAsInteger, parseAsString, parseAsStringLiteral } f
 import { PaginationState, SortingState } from '@tanstack/react-table'
 
 // Client-side wrapper that handles everything
-export default function HomePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const resolvedParams = use(searchParams)
+export default function HomePage() {
+  // For static export, we don't use server-side searchParams
+  // All state will be managed client-side with nuqs
   
   const [page, setPage] = useQueryStates({
     page: parseAsInteger.withDefault(1),

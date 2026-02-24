@@ -5,11 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "STATIC_EXPORT=true npm run build",
     "start": "next start",
     "lint": "eslint \"src/instrumentation.ts\" \"src/lib/config.ts\" \"src/lib/health.ts\" \"src/app/api/health/route.ts\" \"sentry.*.config.ts\" \"next.config.ts\" --no-error-on-unmatched-pattern",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "predeploy": "echo '' > out/.nojekyll",
+    "deploy": "npm run build:static && npm run predeploy && gh-pages -d out -b gh-pages -f"
   },
   "dependencies": {
     "@sentry/nextjs": "^10.39.0",
