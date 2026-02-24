@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseAdminClient, isAdminEmail } from '@/lib/admin'
 import { createContentDraftFromInsight, publishContent } from '@/lib/content'
 
+export const dynamic = "force-static"
+
 function getAdminEmail(request: NextRequest, body: Record<string, unknown>) {
   const headerEmail = request.headers.get('x-admin-email')
   if (headerEmail) return headerEmail

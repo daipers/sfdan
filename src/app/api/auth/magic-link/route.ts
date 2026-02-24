@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { sendMagicLink } from '@/lib/auth'
 import { createClient } from '@supabase/supabase-js'
 
+export const dynamic = "force-static"
+
 // Initialize admin client for database operations
 // Note: In production, use service_role key securely (e.g., via environment variable)
 function getSupabaseAdmin() {

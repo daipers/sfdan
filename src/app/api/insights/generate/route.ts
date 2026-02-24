@@ -4,7 +4,7 @@ import { fetchAwards } from '@/lib/usaspending'
 import { generateInsights } from '@/lib/insights'
 
 export const runtime = 'nodejs'
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-static"
 
 const PAGE_SIZE = 100
 const MAX_PAGES = 10
