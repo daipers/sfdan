@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react'
 import { Card } from '@tremor/react'
 import { AgencyChart, AgencyStatsData } from './AgencyChart'
+import { loadAgencyStatsWithDelay } from '@/lib/static-data'
 
 interface SummaryMetrics {
   totalSpending: number
@@ -13,9 +14,10 @@ interface SummaryMetrics {
 
 interface DashboardMetricsProps {
   metrics: SummaryMetrics
+  projects?: any[] // Add projects data for client-side agency stats
 }
 
-export function DashboardMetrics({ metrics }: DashboardMetricsProps) {
+export function DashboardMetrics({ metrics, projects = [] }: DashboardMetricsProps) {
   const [agencyStats, setAgencyStats] = useState<AgencyStatsData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -23,12 +25,15 @@ export function DashboardMetrics({ metrics }: DashboardMetricsProps) {
   useEffect(() => {
     async function fetchAgencyStats() {
       try {
-        const response = await fetch('/api/agency-stats')
-        if (!response.ok) {
-          throw new Error('Failed to fetch agency stats')
+        // Use client-side agency stats calculation instead of API call
+        if (projects.length > 0) {
+          const data = await loadAgencyStatsWithDelay(projects);
+          setAgencyStats(data);
+        } else {
+          // Show empty state or sample data if no projects
+          setAgencyStats([]);
+          setError('No project data available for agency comparison');
         }
-        const data = await response.json()
-        setAgencyStats(data)
       } catch (err) {
         setError('Unable to load agency comparison data')
         console.error('Error fetching agency stats:', err)
@@ -37,8 +42,12 @@ export function DashboardMetrics({ metrics }: DashboardMetricsProps) {
       }
     }
 
-    fetchAgencyStats()
-  }, [])
+    if (projects.length > 0) {
+      fetchAgencyStats()
+    } else {
+      setLoading(false);
+    }
+  }, [projects])
 
   const formatCurrency = (amount: number) => {
     if (amount >= 1e9) {

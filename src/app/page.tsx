@@ -161,7 +161,7 @@ export default function HomePage() {
         {/* Summary Metrics */}
         {searchResult && !loading && (
           <div className="mb-6">
-            <DashboardMetrics metrics={searchResult.metrics} />
+            <DashboardMetrics metrics={searchResult.metrics} projects={searchResult.projects} />
           </div>
         )}
 
