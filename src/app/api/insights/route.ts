@@ -6,6 +6,7 @@ export const dynamic = "force-static"
 
 const DEFAULT_LIMIT = 25
 const MAX_LIMIT = 100
+const STATIC_EXPORT = process.env.STATIC_EXPORT === 'true'
 
 function getSupabaseAdmin() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -33,6 +34,16 @@ function parseListParam(value: string | null): string[] | null {
 
 export async function GET(request: NextRequest) {
   try {
+    if (STATIC_EXPORT) {
+      return NextResponse.json(
+        {
+          error: 'Insights unavailable in static build',
+          message: 'Use client-side insight access when running on GitHub Pages.',
+        },
+        { status: 501 }
+      )
+    }
+
     const supabaseAdmin = getSupabaseAdmin()
     if (!supabaseAdmin) {
       return NextResponse.json(
@@ -41,7 +52,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const { searchParams } = new URL(request.url)
+    const { searchParams } = request.nextUrl
     const statusParam = parseListParam(searchParams.get('status'))
     const typeParam = parseListParam(searchParams.get('type'))
     const limitParam = Number(searchParams.get('limit') || DEFAULT_LIMIT)

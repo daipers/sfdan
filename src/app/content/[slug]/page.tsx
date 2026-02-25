@@ -40,9 +40,14 @@ export default async function ContentDetailPage({
     notFound()
   }
 
-  const supabase = await createServerSupabaseClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  const isAuthenticated = Boolean(user)
+  const isStaticExport = process.env.STATIC_EXPORT === 'true'
+  let isAuthenticated = false
+
+  if (!isStaticExport) {
+    const supabase = await createServerSupabaseClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    isAuthenticated = Boolean(user)
+  }
   const isGated = content.is_gated && !isAuthenticated
   const sections = content.sections || {}
 
