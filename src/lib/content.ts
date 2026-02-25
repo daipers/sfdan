@@ -1,6 +1,7 @@
 // src/lib/content.ts
 import { createClient } from '@supabase/supabase-js'
 import { createSupabaseAdminClient } from './admin'
+import { fallbackContent, getFallbackContentBySlug } from './content-fallback'
 
 export type ContentStatus = 'draft' | 'review' | 'published'
 
@@ -56,6 +57,19 @@ export interface InsightRecord {
   generated_at?: string
 }
 
+const MISSING_TABLE_CODE = 'PGRST205'
+let missingTableWarned = false
+
+function warnMissingContentTable() {
+  if (missingTableWarned) return
+  missingTableWarned = true
+  console.warn('Supabase content_posts table missing; using fallback content')
+}
+
+function isMissingTableError(error: { code?: string } | null): boolean {
+  return error?.code === MISSING_TABLE_CODE
+}
+
 function createPublicClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -96,7 +110,7 @@ function matchesFilters(post: ContentPost, filters: ContentFilters): boolean {
 
 export async function getPublishedContent(filters: ContentFilters = {}): Promise<ContentPost[]> {
   const supabase = createPublicClient()
-  if (!supabase) return []
+  if (!supabase) return fallbackContent as ContentPost[]
 
   let query = supabase
     .from('content_posts')
@@ -121,6 +135,11 @@ export async function getPublishedContent(filters: ContentFilters = {}): Promise
 
   const { data, error } = await query
 
+  if (isMissingTableError(error)) {
+    warnMissingContentTable()
+    return fallbackContent as ContentPost[]
+  }
+
   if (error || !data) {
     console.error('Error fetching content posts:', error)
     return []
@@ -131,13 +150,18 @@ export async function getPublishedContent(filters: ContentFilters = {}): Promise
 
 export async function getContentBySlug(slug: string): Promise<ContentPost | null> {
   const supabase = createPublicClient()
-  if (!supabase) return null
+  if (!supabase) return getFallbackContentBySlug(slug) as ContentPost | null
 
   const { data, error } = await supabase
     .from('content_posts')
     .select('*')
     .eq('slug', slug)
     .single()
+
+  if (isMissingTableError(error)) {
+    warnMissingContentTable()
+    return getFallbackContentBySlug(slug) as ContentPost | null
+  }
 
   if (error || !data) {
     console.error('Error fetching content post:', error)
