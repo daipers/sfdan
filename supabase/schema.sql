@@ -131,14 +131,17 @@ CREATE INDEX IF NOT EXISTS idx_analytics_events_event_name ON analytics_events(e
 -- ============================================
 
 -- Allow anyone to create a lead (for initial sign-up via magic link)
+DROP POLICY IF EXISTS "Anyone can create lead" ON leads;
 CREATE POLICY "Anyone can create lead"
   ON leads FOR INSERT WITH CHECK (true);
 
 -- Allow authenticated users to read leads
+DROP POLICY IF EXISTS "Auth users can read leads" ON leads;
 CREATE POLICY "Auth users can read leads"
   ON leads FOR SELECT USING (auth.role() = 'authenticated');
 
 -- Allow users to update their own lead
+DROP POLICY IF EXISTS "Users can update own lead" ON leads;
 CREATE POLICY "Users can update own lead"
   ON leads FOR UPDATE USING (auth.uid()::text = email);
 
@@ -147,11 +150,13 @@ CREATE POLICY "Users can update own lead"
 -- ============================================
 
 -- Allow anyone to read published content
+DROP POLICY IF EXISTS "Public can read published content" ON content_posts;
 CREATE POLICY "Public can read published content"
   ON content_posts FOR SELECT
   USING (status = 'published');
 
 -- Allow service role full access for admin workflows
+DROP POLICY IF EXISTS "Service role can manage content" ON content_posts;
 CREATE POLICY "Service role can manage content"
   ON content_posts FOR ALL
   USING (auth.role() = 'service_role');
@@ -161,10 +166,12 @@ CREATE POLICY "Service role can manage content"
 -- ============================================
 
 -- Allow authenticated users to read insights
+DROP POLICY IF EXISTS "Auth users can read insights" ON insights;
 CREATE POLICY "Auth users can read insights"
   ON insights FOR SELECT USING (auth.role() = 'authenticated');
 
 -- Allow service role inserts for insights
+DROP POLICY IF EXISTS "Service role can insert insights" ON insights;
 CREATE POLICY "Service role can insert insights"
   ON insights FOR INSERT WITH CHECK (auth.role() = 'service_role');
 
@@ -173,10 +180,12 @@ CREATE POLICY "Service role can insert insights"
 -- ============================================
 
 -- Allow service role to insert analytics events
+DROP POLICY IF EXISTS "Service role can insert analytics events" ON analytics_events;
 CREATE POLICY "Service role can insert analytics events"
   ON analytics_events FOR INSERT WITH CHECK (auth.role() = 'service_role');
 
 -- Allow service role to read analytics events
+DROP POLICY IF EXISTS "Service role can read analytics events" ON analytics_events;
 CREATE POLICY "Service role can read analytics events"
   ON analytics_events FOR SELECT USING (auth.role() = 'service_role');
 
@@ -214,14 +223,17 @@ CREATE TRIGGER newsletter_subscribers_updated_at_trigger
 -- ============================================
 
 -- Allow anyone to create a newsletter signup
+DROP POLICY IF EXISTS "Anyone can create newsletter subscriber" ON newsletter_subscribers;
 CREATE POLICY "Anyone can create newsletter subscriber"
   ON newsletter_subscribers FOR INSERT WITH CHECK (true);
 
 -- Allow authenticated users to read newsletter subscribers
+DROP POLICY IF EXISTS "Auth users can read newsletter subscribers" ON newsletter_subscribers;
 CREATE POLICY "Auth users can read newsletter subscribers"
   ON newsletter_subscribers FOR SELECT USING (auth.role() = 'authenticated');
 
 -- Allow authenticated users to update their own subscriber record
+DROP POLICY IF EXISTS "Users can update own newsletter subscriber" ON newsletter_subscribers;
 CREATE POLICY "Users can update own newsletter subscriber"
   ON newsletter_subscribers FOR UPDATE USING (
     auth.role() = 'authenticated'
