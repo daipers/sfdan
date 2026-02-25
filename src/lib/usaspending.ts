@@ -20,6 +20,9 @@ const DEFAULT_TIME_PERIOD = {
   end_date: new Date().toISOString().split('T')[0],
 };
 
+const DEFAULT_ASSISTANCE_TYPES = [3, 4, 5];
+const DEFAULT_AWARD_TYPE_CODES = ['A', 'B', 'C', 'D'];
+
 export interface AwardSearchResult {
   results: any[];
   page_metadata: {
@@ -81,8 +84,8 @@ export async function fetchAwards(
         tier: 'toptier',
         name,
       })),
-      assistance_type: [3, 4, 5], // 3=Grants, 4=Cooperative Agreements, 5=Loans
-      award_type_codes: ['A', 'B', 'C', 'D'], // A=Contracts, B=Grants, C=Cooperative Agreements, D=Loans
+      assistance_type: DEFAULT_ASSISTANCE_TYPES, // 3=Grants, 4=Cooperative Agreements, 5=Loans
+      award_type_codes: DEFAULT_AWARD_TYPE_CODES, // A=Contracts, B=Grants, C=Cooperative Agreements, D=Loans
     },
     pagination: {
       page,
@@ -156,6 +159,8 @@ export async function fetchAwardById(awardId: string): Promise<AwardData | null>
     filters: {
       award_id: [awardId],
       time_period: [DEFAULT_TIME_PERIOD],
+      assistance_type: DEFAULT_ASSISTANCE_TYPES,
+      award_type_codes: DEFAULT_AWARD_TYPE_CODES,
     },
     pagination: {
       page: 1,
