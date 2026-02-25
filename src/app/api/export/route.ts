@@ -8,10 +8,21 @@ export const dynamic = "force-static"
 
 // Maximum number of rows to export
 const MAX_EXPORT_ROWS = 10000
+const STATIC_EXPORT = process.env.STATIC_EXPORT === 'true'
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
+    if (STATIC_EXPORT) {
+      return NextResponse.json(
+        {
+          error: 'Export unavailable in static build',
+          message: 'Use client-side export when running on GitHub Pages.',
+        },
+        { status: 501 }
+      )
+    }
+
+    const { searchParams } = request.nextUrl
     
     // Parse filter parameters
     const format = searchParams.get('format') || 'csv'
