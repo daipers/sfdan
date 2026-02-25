@@ -9,7 +9,7 @@
 - [x] **Phase 5: Visualization & Self-Assessment** - Add agency comparison charts, self-assessment tool, and data export functionality
 - [x] **Phase 6: Polish & Quality** - Add tests, error pages, and improve SEO metadata
 - [ ] **Phase 7: Content & Newsletter** - Content generation system for publishing data-driven findings
-- [ ] **Phase 12: Runtime Data Errors** - Resolve static export data errors and integration guardrails
+- [x] **Phase 12: Runtime Data Errors** - Resolve static export data errors and integration guardrails (completed 2026-02-25)
 
 ---
 
@@ -151,7 +151,7 @@
 | 9. Stabilization & Deployment Hardening | 3/3 | Completed | 2026-02-22 |
 | 10. Fix Netlify 500 Error | 1/1 | Completed | 2026-02-22 |
 | 11. GitHub Pages Migration | 3/3 | Completed | 2026-02-24 |
-| 12. Runtime Data Errors | 0/1 | Planned |  |
+| 12. Runtime Data Errors | 1/1 | Complete   | 2026-02-25 |
 
 ---
 
@@ -224,7 +224,7 @@ Plans:
 
 **Goal:** Static export and runtime pages avoid data-fetch errors from external services
 **Depends on:** Phase 11
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 12-01-PLAN.md — Fix runtime data errors in static export
