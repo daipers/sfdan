@@ -1,4 +1,4 @@
-import { calculateScore, ScoreBreakdown } from './scoring';
+import { calculateScore } from './scoring';
 
 // USASpending.gov API client
 // API v2 Documentation: https://github.com/fedspendingtransparency/usaspending-api/blob/master/docs/API.md

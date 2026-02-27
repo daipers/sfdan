@@ -70,8 +70,7 @@ export async function searchProjects(params: SearchParams): Promise<SearchResult
   
   // Filter by state (if available in award data)
   if (state) {
-    // Note: USASpending may not have state in all results
-    // This is a placeholder - actual implementation depends on API response structure
+    // Note: USASpending returns state in 'Place of Performance State' or 'recipient_state' fields
     filteredResults = filteredResults.filter((award: any) => {
       const popState = award['Place of Performance State'] || award['recipient_state']
       return popState === state
