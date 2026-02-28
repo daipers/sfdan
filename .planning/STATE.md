@@ -11,9 +11,9 @@
 **Current Phase:** 15
 **Current Phase Name:** Production Hardening & Automation
 **Status:** Ready to execute
-**Current Plan:** 2
+**Current Plan:** 3
 **Total Plans in Phase:** 4
-**Progress:** [█████░░░░░] 50%
+**Progress:** [████████░░] 75%
 **Last Activity:** 2026-02-28
 **Last Activity Description:** Phase 15 plan 01 complete - Direct Supabase integration refactoring
 
@@ -51,6 +51,7 @@
 | Phase 14 P01 | 30 min | 10 tasks | 5 files |
 | Phase 15 P01 | 15 min | 2 tasks | 5 files |
 | Phase 15 P02 | 12 min | 2 tasks | 4 files |
+| Phase 15 P03 | 15 min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,8 @@
 - [Phase 15]: Moved from backend API routes to direct client-side Supabase calls for forms, content library, and analytics to support static hosting (GitHub Pages). — Enables functionality on static hosts and removes dependence on Next.js server runtime for public-facing data ingestion.
 - [Phase 15]: Use database triggers to automate content creation from approved insights, reducing reliance on server-side API routes. — Robust, secure, and supports static hosting architecture.
 - [Phase 15]: Migrate admin review page to client-side Supabase fetching to support static hosting (GitHub Pages). — Supports functionality on static hosts (GitHub Pages) and removes dependence on Next.js server runtime for public-facing data ingestion.
+- [Phase 15]: Used tsx for standalone automation scripts — Simplifies execution in GitHub Actions without a complex build step.
+- [Phase 15]: Scheduled weekly insights on Mondays at 08:00 UTC — Ensures dashboard content is fresh for the start of the watchdog work week.
 
 ### Roadmap Evolution
 - Phase 8 added: 8 functionality expansion, we are going to make sure it works exactly like we want it to. We want it completely functional
@@ -111,7 +114,7 @@
 
 ## Session Continuity
 
-**Last session:** 2026-02-28T00:58:59.425Z
+**Last session:** 2026-02-28T01:00:48.884Z
 **Next action:** Project complete - ready for deployment
 
 ---
