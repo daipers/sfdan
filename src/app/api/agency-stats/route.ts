@@ -26,10 +26,10 @@ export async function GET() {
       return NextResponse.json(cachedStats.data);
     }
 
-    // Fetch a larger dataset for aggregation (500 awards)
+    // Fetch a dataset for aggregation (limit 100 per USASpending API restrictions)
     const data = await fetchAwards({
       page: 1,
-      pageSize: 500
+      pageSize: 100
     });
 
     if (!data.results || data.results.length === 0) {

@@ -156,21 +156,23 @@ export async function getContentBySlug(slug: string): Promise<ContentPost | null
     .from('content_posts')
     .select('*')
     .eq('slug', slug)
-    .single()
+    .limit(1)
 
   if (isMissingTableError(error)) {
     warnMissingContentTable()
     return getFallbackContentBySlug(slug) as ContentPost | null
   }
 
-  if (error || !data) {
+  const post = data?.[0] || null
+
+  if (error || !post) {
     if (error) {
       console.warn(`Error fetching content post for slug "${slug}":`, error.message)
     }
     return getFallbackContentBySlug(slug) as ContentPost | null
   }
 
-  return data as ContentPost
+  return post as ContentPost
 }
 
 function slugifyTitle(title: string): string {

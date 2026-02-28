@@ -21,7 +21,7 @@ const DEFAULT_TIME_PERIOD = {
 };
 
 const DEFAULT_ASSISTANCE_TYPES = [3, 4, 5];
-const DEFAULT_AWARD_TYPE_CODES = ['A', 'B', 'C', 'D', '02', '03', '04', '05', '07', '08'];
+const DEFAULT_AWARD_TYPE_CODES = ['A', 'B', 'C', 'D'];
 
 export interface AwardSearchResult {
   results: any[];
@@ -83,7 +83,7 @@ export async function fetchAwards(
         tier: 'toptier',
         name,
       })),
-      award_type_codes: DEFAULT_AWARD_TYPE_CODES, // A-D=Contracts, 02-05=Grants, 07-08=Loans
+      award_type_codes: DEFAULT_AWARD_TYPE_CODES, // A-D=Contracts (API doesn't allow mixing groups)
     },
     page,
     limit: pageSize,
