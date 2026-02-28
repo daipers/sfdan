@@ -73,6 +73,13 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **STAB-03**: Reliability safeguards (health checks, rollback trigger, per-IP rate limiting)
 - [x] **STAB-04**: Environment/config hardening (secret storage, startup validation, build/test gates, edge/runtime config)
 
+### Production Hardening & Automation
+
+- [ ] **PROD-01**: Form functionality (newsletter, lead capture) migration to client-side Supabase client for static host compatibility
+- [ ] **PROD-02**: Automated data-driven insights generation via scheduled GitHub Actions using standalone scripts
+- [ ] **PROD-03**: Secure administrative access and RLS policies for client-side updates of insights and other restricted tables
+- [ ] **PROD-04**: Session restoration and context-aware redirection via dedicated auth callback for static site authentication
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
