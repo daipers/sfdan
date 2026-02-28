@@ -9,11 +9,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Data Integration
 
-- [ ] **DATA-01**: Connect to USASpending.gov API v2 endpoints for award data
-- [ ] **DATA-02**: Implement caching layer to handle API rate limits (~5K requests/day)
-- [ ] **DATA-03**: Sync IIJA-specific awards (filter by funding agency, assistance type)
-- [ ] **DATA-04**: Display data currency indicator ("Data as of [date]")
-- [ ] **DATA-05**: Handle API errors gracefully with user feedback
+- [x] **DATA-01**: Connect to USASpending.gov API v2 endpoints for award data
+- [x] **DATA-02**: Implement caching layer to handle API rate limits (~5K requests/day)
+- [x] **DATA-03**: Sync IIJA-specific awards (filter by funding agency, assistance type)
+- [x] **DATA-04**: Display data currency indicator ("Data as of [date]")
+- [x] **DATA-05**: Handle API errors gracefully with user feedback
 
 ### Search & Filtering
 
@@ -122,11 +122,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
-| DATA-05 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Complete |
+| DATA-02 | Phase 1 | Complete |
+| DATA-03 | Phase 1 | Complete |
+| DATA-04 | Phase 1 | Complete |
+| DATA-05 | Phase 1 | Complete |
 | FILT-01 | Phase 3 | Pending |
 | FILT-02 | Phase 3 | Pending |
 | FILT-03 | Phase 3 | Pending |
