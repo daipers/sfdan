@@ -37,6 +37,8 @@ next-env.d.ts
 
 # Testing
 coverage/
+playwright-report/
+test-results/
 
 # Local Netlify folder
 .netlify

@@ -190,8 +190,6 @@ CREATE POLICY "Service role can read analytics events"
   ON analytics_events FOR SELECT USING (auth.role() = 'service_role');
 
 -- Create function to auto-update updated_at
-
--- Create function to auto-update updated_at
 CREATE OR REPLACE FUNCTION update_leads_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -200,6 +198,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS leads_updated_at_trigger ON leads;
 CREATE TRIGGER leads_updated_at_trigger
   BEFORE UPDATE ON leads
   FOR EACH ROW
@@ -213,6 +212,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS newsletter_subscribers_updated_at_trigger ON newsletter_subscribers;
 CREATE TRIGGER newsletter_subscribers_updated_at_trigger
   BEFORE UPDATE ON newsletter_subscribers
   FOR EACH ROW
