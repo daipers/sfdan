@@ -1,0 +1,30 @@
+name: Generate Weekly Insights
+
+on:
+  schedule:
+    # Mondays at 08:00 UTC
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+    # Allows manual trigger via GitHub UI or CLI
+
+jobs:
+  generate-insights:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run insights generation script
+        run: npx tsx scripts/generate-insights.ts
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
