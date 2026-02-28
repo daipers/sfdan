@@ -43,6 +43,7 @@
 - @typescript-eslint/eslint-plugin - TypeScript ESLint rules
 - @typescript-eslint/parser - TypeScript ESLint parser
 - TypeScript 5.x - Type checking and transpilation
+- tsx - TypeScript execution engine for standalone scripts
 
 ## Key Dependencies
 

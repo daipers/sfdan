@@ -6,27 +6,11 @@
 
 ```
 /Users/dstand/Documents/SFDAN/
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── api/                # API routes
-│   │   │   ├── export/
-│   │   │   ├── agency-stats/
-│   │   │   └── auth/
-│   │   ├── assess/
-│   │   ├── projects/[id]/
-│   │   ├── gated-reports/
-│   │   ├── data-sources/
-│   │   ├── faq/
-│   │   ├── methodology/
-│   │   ├── layout.tsx
-│   │   ├── page.tsx
-│   │   ├── loading.tsx
-│   │   ├── error.tsx
-│   │   ├── not-found.tsx
-│   │   └── globals.css
-│   ├── components/             # React UI components
-│   ├── lib/                    # Business logic & API clients
-│   └── test/                   # Test setup
+├── .github/workflows/          # CI/CD and automation workflows
+│   └── generate-insights.yml   # Scheduled weekly insight updates
+├── scripts/                    # Standalone automation scripts
+
+│   └── generate-insights.ts    # Weekly insight generation logic
 ├── public/                     # Static assets
 ├── package.json
 ├── next.config.ts
@@ -55,6 +39,11 @@
 **`src/test/`:**
 - Purpose: Test configuration and setup
 - Contains: `setup.ts` (Vitest setup with mocks)
+
+**`scripts/`:**
+- Purpose: Standalone automation and maintenance scripts
+- Contains: `generate-insights.ts` (Weekly insight generation logic)
+- Note: Executed via `tsx` in GitHub Actions
 
 ## Key File Locations
 
