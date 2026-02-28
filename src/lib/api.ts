@@ -48,10 +48,12 @@ export async function searchProjects(params: SearchParams): Promise<SearchResult
   const agencies = agency ? [agencyMap[agency] || agency] : undefined
   
   // Fetch from USASpending API
+  // Fetch more results than requested to allow for client-side filtering on the first page
+  const fetchSize = 100
   const result = await fetchAwards({
     agencies,
     page,
-    pageSize,
+    pageSize: fetchSize,
   })
   
   // Client-side filtering (USASpending API has limited filter support)
@@ -128,15 +130,19 @@ export async function searchProjects(params: SearchParams): Promise<SearchResult
     return aVal < bVal ? 1 : -1
   })
   
-  // Calculate metrics from all filtered results
-  const totalCount = filteredResults.length
+  // Calculate metrics from current window
+  const currentCount = filteredResults.length
   const totalSpending = filteredResults.reduce((sum: number, a: any) => sum + (a['Award Amount'] || 0), 0)
-  const avgScore = filteredResults.reduce((sum: number, a: any) => sum + (a.score?.total ?? 0), 0) / Math.max(totalCount, 1)
+  const avgScore = filteredResults.reduce((sum: number, a: any) => sum + (a.score?.total ?? 0), 0) / Math.max(currentCount, 1)
+  
+  // Use real total if available, otherwise estimate based on hasNext
+  const apiTotal = result.page_metadata.total
+  const hasNext = result.page_metadata.hasNext
+  const totalCount = apiTotal ?? (hasNext ? (page * pageSize) + pageSize : currentCount)
+  const pageCount = apiTotal ? Math.ceil(apiTotal / pageSize) : (hasNext ? page + 1 : page)
   
   // Apply pagination after filtering and sorting
-  const pageCount = Math.ceil(totalCount / pageSize)
-  const startIndex = (page - 1) * pageSize
-  const paginatedData = filteredResults.slice(startIndex, startIndex + pageSize)
+  const paginatedData = filteredResults.slice(0, pageSize)
   
   return {
     data: paginatedData,

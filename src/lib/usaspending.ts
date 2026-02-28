@@ -21,15 +21,14 @@ const DEFAULT_TIME_PERIOD = {
 };
 
 const DEFAULT_ASSISTANCE_TYPES = [3, 4, 5];
-const DEFAULT_AWARD_TYPE_CODES = ['A', 'B', 'C', 'D'];
+const DEFAULT_AWARD_TYPE_CODES = ['A', 'B', 'C', 'D', '02', '03', '04', '05', '07', '08'];
 
 export interface AwardSearchResult {
   results: any[];
   page_metadata: {
     page: number;
-    count: number;
-    total: number;
-    page_size: number;
+    hasNext: boolean;
+    total?: number;
   };
 }
 
@@ -84,13 +83,10 @@ export async function fetchAwards(
         tier: 'toptier',
         name,
       })),
-      assistance_type: DEFAULT_ASSISTANCE_TYPES, // 3=Grants, 4=Cooperative Agreements, 5=Loans
-      award_type_codes: DEFAULT_AWARD_TYPE_CODES, // A=Contracts, B=Grants, C=Cooperative Agreements, D=Loans
+      award_type_codes: DEFAULT_AWARD_TYPE_CODES, // A-D=Contracts, 02-05=Grants, 07-08=Loans
     },
-    pagination: {
-      page,
-      count: pageSize,
-    },
+    page,
+    limit: pageSize,
     fields: [
       'Award ID',
       'Description',
@@ -159,13 +155,10 @@ export async function fetchAwardById(awardId: string): Promise<AwardData | null>
     filters: {
       award_id: [awardId],
       time_period: [DEFAULT_TIME_PERIOD],
-      assistance_type: DEFAULT_ASSISTANCE_TYPES,
       award_type_codes: DEFAULT_AWARD_TYPE_CODES,
     },
-    pagination: {
-      page: 1,
-      count: 1,
-    },
+    page: 1,
+    limit: 1,
     fields: [
       'Award ID',
       'Description',
