@@ -8,20 +8,20 @@
 
 ## Execution State
 
-**Current Phase:** 12
-**Current Phase Name:** Runtime Data Errors
-**Status:** Phase complete — ready for verification
+**Current Phase:** 14
+**Current Phase Name:** Supabase Integration
+**Status:** Phase complete
 **Current Plan:** 1
 **Total Plans in Phase:** 1
 **Progress:** [██████████] 100%
-**Last Activity:** 2026-02-25
-**Last Activity Description:** Phase 12 plan 01 complete - runtime data errors resolved
+**Last Activity:** 2026-02-27
+**Last Activity Description:** Phase 14 plan 01 complete - Supabase integration and static build verified
 
 ## Current Position
 
 | Attribute | Value |
 |-----------|-------|
-| Phase | 12 - Runtime Data Errors |
+| Phase | 14 - Supabase Integration |
 | Plan | 1/1 |
 | Status | Completed |
 | Progress | 100% (1/1) |
@@ -30,12 +30,12 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 6 |
+| Total Phases | 14 |
 | Total Requirements | 34 |
 | Mapped Requirements | 34 |
 | Coverage | 100% |
 | Unit Tests | 56 |
-| E2E Tests | 7 |
+| E2E Tests | 8 |
 | Phase 07-content-newsletter P02 | 4 min | 5 tasks | 6 files |
 | Phase 07 P01 | 5 min | 6 tasks | 11 files |
 | Phase 07-content-newsletter P03 | 12 min | 7 tasks | 15 files |
@@ -47,11 +47,13 @@
 | Phase 09-stabilization-and-deployment-hardening P01 | 7 min | 3 tasks | 11 files |
 | Phase 09-stabilization-and-deployment-hardening P02 | 1 min | 2 tasks | 5 files |
 | Phase 12 P01 | 0 min | 3 tasks | 10 files |
+| Phase 13 P01 | 5 min | 3 tasks | 3 files |
+| Phase 14 P01 | 30 min | 10 tasks | 5 files |
 
 ## Accumulated Context
 
 ### Decisions Made
-- **Phase structure:** 6 phases (quick depth: 3-5)
+- **Phase structure:** 14 phases
 - **Phase 1:** Foundation & Data Ingestion (DATA-01 to DATA-05)
 - **Phase 2:** Scoring Engine (SCR-01 to SCR-05) - core differentiator
 - **Phase 3:** Dashboard & Search (FILT + TABL = 10 requirements)
@@ -73,11 +75,18 @@
 - [Phase 09-stabilization-and-deployment-hardening]: Bypass rate limiting for /api/health to keep uptime checks reliable
 - [Phase 12]: Return 501 JSON responses for API routes when STATIC_EXPORT is enabled — Keeps static export builds from accessing request data
 - [Phase 12]: Use fallback content for missing Supabase content_posts — Allows content pages to render during static export or missing-table scenarios
+- [Phase 14]: Use "Subscribe to Newsletter" text for the content library CTA for better conversion, updated E2E tests to match.
+- [Phase 14]: Await searchParams in ContentPage to satisfy Next.js 16 dynamic API requirements.
+- [Phase 14]: Use idempotent schema scripts (DROP TRIGGER IF EXISTS) for Supabase database migrations.
 
 ### Roadmap Evolution
 - Phase 8 added: 8 functionality expansion, we are going to make sure it works exactly like we want it to. We want it completely functional
 - Phase 9 added: Stabilization and deployment hardening
 - Phase 10 added: Fix Netlify 500 error
+- Phase 11 added: GitHub Pages Migration
+- Phase 12 added: Runtime Data Errors
+- Phase 13 added: Tech Debt Cleanup
+- Phase 14 added: Supabase Integration
 
 ### Key Dependencies
 - USASpending.gov API v2 - primary data source

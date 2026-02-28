@@ -112,7 +112,7 @@ test.describe('SFDAN E2E Tests', () => {
   test('content page links to newsletter signup', async ({ page }) => {
     await page.goto('/content');
 
-    const newsletterLink = page.getByRole('link', { name: /newsletter signup/i });
+    const newsletterLink = page.getByRole('link', { name: /subscribe to newsletter/i });
     await expect(newsletterLink).toBeVisible();
     await expect(newsletterLink).toHaveAttribute('href', '/newsletter');
 
