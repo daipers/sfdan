@@ -12,9 +12,15 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   projects: [
+    { name: 'setup', testMatch: /auth\.setup\.ts/ },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        // Use auth state if needed in some tests
+        // storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup'],
     },
   ],
   webServer: {

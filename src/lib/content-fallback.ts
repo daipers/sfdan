@@ -126,7 +126,7 @@ export const fallbackContent: FallbackContentPost[] = [
     },
     insight_ids: null,
     status: 'published',
-    is_gated: false,
+    is_gated: true,
     data_sources: null,
     published_at: TODAY,
     approved_at: TODAY,

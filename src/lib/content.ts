@@ -164,8 +164,10 @@ export async function getContentBySlug(slug: string): Promise<ContentPost | null
   }
 
   if (error || !data) {
-    console.error('Error fetching content post:', error)
-    return null
+    if (error) {
+      console.warn(`Error fetching content post for slug "${slug}":`, error.message)
+    }
+    return getFallbackContentBySlug(slug) as ContentPost | null
   }
 
   return data as ContentPost
