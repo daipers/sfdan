@@ -1,6 +1,6 @@
 # External Integrations
 
-**Analysis Date:** 2026-02-21
+**Analysis Date:** 2026-02-28
 
 ## APIs & External Services
 
@@ -10,36 +10,35 @@
   - Implementation: `src/lib/usaspending.ts`
   - Auth: None (public API)
   - Usage: Fetches IIJA-related grants, loans, and cooperative agreements
-  - Caching: 1-hour ISR cache via Next.js `next: { revalidate: 3600 }`
-  - Filters applied: 
-    - IIJA agencies (DOT, DOE, EPA, HUD, USDA)
-    - Assistance types: Grants (3), Cooperative Agreements (4), Loans (5)
-    - Award type codes: A, B, C, D
+  - Caching: Client-side in-memory or static data fallbacks
 
 **Data Aggregation:**
-- Agency Statistics API - Custom endpoint for dashboard charts
-  - Location: `src/app/api/agency-stats/route.ts`
-  - Fetches 500 awards and aggregates by funding agency
-  - Client-side cache: 1 hour in-memory
+- Agency Statistics - Calculated client-side from project data
+  - Implementation: `src/lib/agency-stats.ts`
+  - Client-side cache: In-memory
 
 ## Data Storage
 
 **Database:**
 - Supabase (PostgreSQL)
   - Connection: `NEXT_PUBLIC_SUPABASE_URL` environment variable
-  - Client: `@supabase/supabase-js` with `@supabase/ssr` for server-side
+  - Client: `@supabase/supabase-js` for browser and automation
   - Schema: `supabase/schema.sql`
   - Tables:
     - `cached_awards` - API response caching
     - `sync_status` - Sync tracking
     - `leads` - Lead generation data
+    - `newsletter_subscribers` - Newsletter data
+    - `analytics_events` - Event tracking data
+    - `insights` - Data-driven insights
+    - `content_posts` - Blog/content library posts
 
 **File Storage:**
 - None (no file upload/storage features)
 
 **Caching:**
-- In-memory caching for API routes (agency-stats)
-- Next.js ISR (Incremental Static Regeneration) for API responses
+- Client-side in-memory caching
+- Browser local storage (optional)
 - Database-level caching table for award data
 
 ## Authentication & Identity
@@ -47,10 +46,10 @@
 **Auth Provider:**
 - Supabase Auth
   - Implementation: Magic link (passwordless) via email OTP
-  - Client: `@supabase/ssr` with cookie-based session handling
-  - Files: `src/lib/supabase.ts`, `src/lib/supabase-server.ts`, `src/lib/auth.ts`
-  - Auth routes: `src/app/api/auth/magic-link/route.ts`
-  - Protected pages: `/gated-reports` (requires authentication)
+  - Client: `@supabase/supabase-js` with client-side session handling
+  - Files: `src/lib/supabase.ts`, `src/app/auth/callback/page.tsx`
+  - Auth routes: Client-side callback handler
+  - Protected pages: `/content/[slug]` (gated reports)
 
 **Lead Generation:**
 - Email capture via magic link sign-in
@@ -60,52 +59,54 @@
 
 **Error Tracking:**
 - Sentry
-  - Client/server/edge configs: `sentry.client.config.ts`, `sentry.server.config.ts`, `sentry.edge.config.ts`
+  - Client config: `sentry.client.config.ts`
   - Instrumentation hook: `src/instrumentation.ts`
   - Environment tags via `SENTRY_ENVIRONMENT`
 
 **Logs:**
 - Console logging via `console.error` and `console.warn`
-- Server-side: Next.js server logs
-- Deployment: Netlify function logs
+- Browser developer console (production)
+- GitHub Actions logs (automation/build)
 
 **Uptime:**
-- Health endpoint: `src/app/api/health/route.ts`
+- Health checks: Manual or external monitoring of static pages
 - Dependency checks: Supabase + USASpending
 
 **Analytics:**
-- Not detected in codebase
+- Custom events tracked in Supabase `analytics_events` table
+  - Implementation: `src/lib/analytics.ts`
 
 ## CI/CD & Deployment
 
 **Hosting:**
-- Netlify
-  - Configuration: `netlify.toml`
-  - Build command: `npm run build`
-  - Node version: 20
-  - Output: Next.js static/lambda hybrid
+- GitHub Pages
+  - Configuration: Next.js static export (`output: 'export'`)
+  - Output: Static HTML/JS/CSS
 
 **CI Pipeline:**
-- Not explicitly configured (uses Netlify defaults)
-- Playwright tests can run in CI with `test:e2e` npm script
+- GitHub Actions
+  - Configuration: `.github/workflows/deploy.yml`
+  - Automation: `.github/workflows/generate-insights.yml`
+  - Build command: `npm run build:static`
+  - Node version: 20
 
 **Environment:**
 - Development: `.env.local` (not committed)
-- Production: Netlify environment variables
+- Production: GitHub Repository Secrets
 
 ## Environment Configuration
 
 **Required env vars:**
 - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous (public) key
-- `SUPABASE_SERVICE_ROLE_KEY` - Server-side Supabase service role key
-- `NEXT_PUBLIC_SITE_URL` - Production URL for auth redirects (optional, defaults to localhost)
+- `SUPABASE_SERVICE_ROLE_KEY` - Build/automation Supabase service role key
+- `NEXT_PUBLIC_SITE_URL` - Production URL for auth redirects
 - `SENTRY_DSN` - Sentry project DSN
 - `SENTRY_ENVIRONMENT` - Sentry environment tag
 
 **Secrets location:**
 - `.env.local` (local development)
-- Netlify dashboard Environment Variables section
+- GitHub Repository Secrets (production)
 
 ## Webhooks & Callbacks
 
@@ -118,4 +119,4 @@
 
 ---
 
-*Integration audit: 2026-02-21*
+*Integration audit: 2026-02-28*

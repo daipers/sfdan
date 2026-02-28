@@ -152,7 +152,7 @@
 | 7. Content & Newsletter | 3/3 | Completed | 2026-02-22 |
 | 8. Functionality Expansion | 3/3 | Completed | 2026-02-22 |
 | 9. Stabilization & Deployment Hardening | 3/3 | Completed | 2026-02-22 |
-| 10. Fix Netlify 500 Error | 1/1 | Completed | 2026-02-22 |
+| 10. Fix Deployment Platform 500 Error | 1/1 | Completed | 2026-02-22 |
 | 11. GitHub Pages Migration | 3/3 | Completed | 2026-02-24 |
 | 12. Runtime Data Errors | 1/1 | Complete   | 2026-02-25 |
 | 13. Tech Debt Cleanup | 1/1 | Complete   | 2026-02-27 |
@@ -201,9 +201,9 @@ Plans:
 - [ ] 09-02-PLAN.md — Per-IP rate limiting at the edge
 - [ ] 09-03-PLAN.md — Release workflow docs, incident templates, and build protections
 
-### Phase 10: Fix Netlify 500 error
+### Phase 10: Fix Deployment Platform 500 error
 
-**Goal:** Fix Netlify deployment 500 Internal Server Error
+**Goal:** Fix Deployment Platform deployment 500 Internal Server Error
 **Depends on:** Phase 9
 **Plans:** 1 plan
 
@@ -214,7 +214,7 @@ Plans:
 
 ### Phase 11: GitHub Pages Migration
 
-**Goal:** Migrate from Netlify to GitHub Pages with static export configuration
+**Goal:** Migrate from Deployment Platform to GitHub Pages with static export configuration
 **Depends on:** Phase 10
 **Requirements:** Static export, GitHub Actions deployment, client-side API conversion
 **Plans:** 3 plans

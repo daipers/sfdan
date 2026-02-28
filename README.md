@@ -70,9 +70,7 @@ Pushes to `main` branch automatically deploy via GitHub Actions.
 npm run deploy:gh-pages
 ```
 
-## 🏗️ Architecture Changes for GitHub Pages
-
-### Static Export Configuration
+## 🏗️ Static Export Architecture
 
 The application uses Next.js static export (`output: 'export'`) which converts all pages to static HTML at build time.
 
@@ -210,4 +208,4 @@ npx serve out -p 3000
 
 ---
 
-**Note**: This project was migrated from Netlify to GitHub Pages for free static hosting. Some dynamic features are limited due to static export constraints.
+**Status**: This project is fully configured for GitHub Pages with static export.

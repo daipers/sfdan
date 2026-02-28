@@ -6,8 +6,6 @@ const REQUIRED_SERVER_ENV = [
 
 const SITE_URL_ENV_KEYS = [
   "NEXT_PUBLIC_SITE_URL",
-  "URL",
-  "DEPLOY_PRIME_URL",
   "SITE_URL",
 ] as const;
 
