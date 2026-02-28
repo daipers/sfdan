@@ -2,10 +2,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getContentBySlug } from '@/lib/content'
-import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { NewsletterPrompt } from '@/components/NewsletterPrompt'
-import { NewsletterSignupForm } from '@/components/NewsletterSignupForm'
 import { AnalyticsTracker } from '@/components/AnalyticsTracker'
+import { GatedContentWrapper } from '@/components/GatedContentWrapper'
 
 // Generate static params for static export
 export async function generateStaticParams() {
@@ -40,15 +39,6 @@ export default async function ContentDetailPage({
     notFound()
   }
 
-  const isStaticExport = process.env.STATIC_EXPORT === 'true'
-  let isAuthenticated = false
-
-  if (!isStaticExport) {
-    const supabase = await createServerSupabaseClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    isAuthenticated = Boolean(user)
-  }
-  const isGated = content.is_gated && !isAuthenticated
   const sections = content.sections || {}
 
   return (
@@ -89,17 +79,7 @@ export default async function ContentDetailPage({
           )}
         </header>
 
-        {isGated ? (
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Subscribe to unlock the full report
-            </h2>
-            <p className="text-sm text-gray-600 mb-5">
-              Get access to executive summaries, full findings, and methodology notes.
-            </p>
-            <NewsletterSignupForm />
-          </div>
-        ) : (
+        <GatedContentWrapper isInitiallyGated={content.is_gated}>
           <div className="space-y-8">
             {sections.executiveSummary && (
               <section className="bg-white border border-gray-200 rounded-lg p-6">
@@ -112,7 +92,7 @@ export default async function ContentDetailPage({
               <section className="bg-white border border-gray-200 rounded-lg p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-3">Key Findings</h2>
                 <ul className="space-y-3 text-gray-700">
-                  {sections.keyFindings.map((finding, index) => (
+                  {sections.keyFindings.map((finding: any, index: number) => (
                     <li key={index} className="flex gap-3">
                       <span className="mt-1 h-2 w-2 rounded-full bg-blue-600"></span>
                       <span>{finding}</span>
@@ -135,7 +115,7 @@ export default async function ContentDetailPage({
               <section className="bg-white border border-gray-200 rounded-lg p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-3">Data Highlights</h2>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  {sections.dataHighlights.map((highlight, index) => (
+                  {sections.dataHighlights.map((highlight: any, index: number) => (
                     <div key={index} className="border border-gray-200 rounded-lg p-4">
                       <p className="text-sm text-gray-500">{highlight.label}</p>
                       <p className="text-lg font-semibold text-gray-900">{highlight.value}</p>
@@ -152,7 +132,7 @@ export default async function ContentDetailPage({
               <section className="bg-white border border-gray-200 rounded-lg p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-3">Citations</h2>
                 <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
-                  {sections.citations.map((citation, index) => (
+                  {sections.citations.map((citation: string, index: number) => (
                     <li key={index}>{citation}</li>
                   ))}
                 </ul>
@@ -163,14 +143,14 @@ export default async function ContentDetailPage({
               <section className="bg-white border border-gray-200 rounded-lg p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-3">Data Sources</h2>
                 <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
-                  {sections.dataSources.map((source, index) => (
+                  {sections.dataSources.map((source: string, index: number) => (
                     <li key={index}>{source}</li>
                   ))}
                 </ul>
               </section>
             )}
           </div>
-        )}
+        </GatedContentWrapper>
       </div>
     </main>
   )
