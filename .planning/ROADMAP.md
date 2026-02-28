@@ -157,7 +157,7 @@
 | 12. Runtime Data Errors | 1/1 | Complete   | 2026-02-25 |
 | 13. Tech Debt Cleanup | 1/1 | Complete   | 2026-02-27 |
 | 14. Supabase Integration | 1/1 | Complete   | 2026-02-27 |
-| 15. Production Hardening & Automation | 0/3 | In Progress | |
+| 15. Production Hardening & Automation | 0/4 | In Progress | |
 
 ---
 
@@ -241,11 +241,12 @@ Plans:
 **Goal:** Ensure dynamic features (newsletter, lead capture, insights) work on static GitHub Pages and automate backend tasks via GitHub Actions.
 **Depends on:** Phase 14
 **Requirements:** PROD-01, PROD-02, PROD-03, PROD-04
-**Plans:** 3 plans
+**Plans:** 4 plans
 
 Plans:
-- [ ] 15-01-PLAN.md — Client-side Supabase migration and RLS hardening
-- [ ] 15-02-PLAN.md — Scheduled insights generation via GitHub Actions
-- [ ] 15-03-PLAN.md — Auth magic-link flow for static hosting and E2E mocks
+- [ ] 15-01-PLAN.md — Public client-side migration (Forms, Content, Analytics)
+- [ ] 15-02-PLAN.md — Security & Admin Hardening (Admin Table, RLS, Permissions)
+- [ ] 15-03-PLAN.md — Scheduled insights generation via GitHub Actions
+- [ ] 15-04-PLAN.md — Auth callback, re-hydration, and E2E verification
 
 *Roadmap updated: 2026-02-28*
