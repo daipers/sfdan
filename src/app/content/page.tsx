@@ -11,17 +11,18 @@ function getParamValue(value?: string | string[]) {
 }
 
 export default async function ContentPage({
-  searchParams = {},
+  searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const query = getParamValue(searchParams.q)
-  const type = getParamValue(searchParams.type)
-  const agency = getParamValue(searchParams.agency)
-  const state = getParamValue(searchParams.state)
-  const dateFrom = getParamValue(searchParams.from)
-  const dateTo = getParamValue(searchParams.to)
-  const tag = getParamValue(searchParams.tag)
+  const resolved = await searchParams
+  const query = getParamValue(resolved.q)
+  const type = getParamValue(resolved.type)
+  const agency = getParamValue(resolved.agency)
+  const state = getParamValue(resolved.state)
+  const dateFrom = getParamValue(resolved.from)
+  const dateTo = getParamValue(resolved.to)
+  const tag = getParamValue(resolved.tag)
 
   const content = await getPublishedContent({
     query: query || undefined,

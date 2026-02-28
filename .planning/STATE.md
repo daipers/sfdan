@@ -88,7 +88,7 @@
 - Phase 2 (Scoring Engine): May need deeper research on regulatory citations
 
 ### Pending Todos
-- 2026-02-28: Fix Next.js 16 searchParams await error (ui)
+- (none)
 
 ### Notes
 - Timeline: 6-8 weeks
