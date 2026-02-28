@@ -1,7 +1,7 @@
-# UAT Results - Netlify Deployment Verification
+# UAT Results - Deployment Platform Deployment Verification
 
 **Date:** 2026-02-21  
-**Context:** Verify all features work and are aligned for Netlify deployment
+**Context:** Verify all features work and are aligned for Deployment Platform deployment
 
 ---
 
@@ -41,7 +41,7 @@ Added mock client fallback in:
 - `src/lib/supabase.ts` - Client-side
 - `src/lib/supabase-server.ts` - Server-side
 
-**Result:** App loads without crashing even if env vars missing on Netlify
+**Result:** App loads without crashing even if env vars missing on Deployment Platform
 
 ---
 
@@ -59,7 +59,7 @@ Added mock client fallback in:
 | Item | Status |
 |------|--------|
 | GitHub repo | ✅ https://github.com/daipers/sfdan |
-| Netlify site | ✅ https://sfdan.netlify.app |
+| Deployment Platform site | ✅ https://sfdan.deployment.app |
 | Last push | ✅ Committed and pushed |
 
 ---
@@ -86,8 +86,8 @@ None - all checks passed.
 
 ## Next Steps
 
-1. Monitor Netlify deployment at https://app.netlify.com/sites/sfdan/deploys
-2. If env vars missing in Netlify dashboard, add them:
+1. Monitor Deployment Platform deployment at https://app.deployment.com/sites/sfdan/deploys
+2. If env vars missing in Deployment Platform dashboard, add them:
    - NEXT_PUBLIC_SUPABASE_URL
    - NEXT_PUBLIC_SUPABASE_ANON_KEY  
    - SUPABASE_SERVICE_ROLE_KEY

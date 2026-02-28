@@ -2,7 +2,7 @@
 phase: 09-stabilization-and-deployment-hardening
 plan: 03
 subsystem: infra
-tags: [netlify, release, rollback, incident-response]
+tags: [deployment, release, rollback, incident-response]
 
 # Dependency graph
 requires:
@@ -11,7 +11,7 @@ requires:
 provides:
   - Blue/green release workflow with health-gated rollback
   - Incident log and postmortem templates
-  - Netlify build test gate
+  - Deployment Platform build test gate
 affects: [deployment, operations]
 
 # Tech tracking
@@ -26,7 +26,7 @@ key-files:
     - docs/operations/postmortem-template.md
     - .planning/phases/09-stabilization-and-deployment-hardening/09-USER-SETUP.md
   modified:
-    - netlify.toml
+    - deployment.toml
 
 key-decisions:
   - "None - followed plan as specified"
@@ -44,7 +44,7 @@ completed: 2026-02-22
 
 # Phase 09 Plan 03: Stabilization and Deployment Hardening Summary
 
-**Netlify releases now document blue/green promotion with health-gated rollback, backed by incident response templates and a build test gate.**
+**Deployment Platform releases now document blue/green promotion with health-gated rollback, backed by incident response templates and a build test gate.**
 
 ## Performance
 
@@ -57,7 +57,7 @@ completed: 2026-02-22
 ## Accomplishments
 - Documented blue/green release workflow with approval and rollback gates
 - Added incident log and postmortem templates for responders
-- Enforced unit-test gating for Netlify builds
+- Enforced unit-test gating for Deployment Platform builds
 
 ## Task Commits
 
@@ -65,7 +65,7 @@ Each task was committed atomically:
 
 1. **Task 1: Document blue/green release workflow with health-gated auto-rollback** - `94c42f7a` (docs)
 2. **Task 2: Add incident log and postmortem templates** - `f1cb2642` (docs)
-3. **Task 3: Enforce build protections on Netlify** - `942519cc` (chore)
+3. **Task 3: Enforce build protections on Deployment Platform** - `942519cc` (chore)
 
 **Plan metadata:** `8b2e06a0` (docs: complete plan)
 
@@ -73,8 +73,8 @@ Each task was committed atomically:
 - `docs/operations/release-workflow.md` - Blue/green promotion steps, health gate, rollback checklist
 - `docs/operations/incident-log.md` - Incident log template with severity and mitigation fields
 - `docs/operations/postmortem-template.md` - Postmortem template with timeline and prevention tasks
-- `netlify.toml` - Build command gated by unit tests
-- `.planning/phases/09-stabilization-and-deployment-hardening/09-USER-SETUP.md` - Netlify dashboard setup checklist
+- `deployment.toml` - Build command gated by unit tests
+- `.planning/phases/09-stabilization-and-deployment-hardening/09-USER-SETUP.md` - Deployment Platform dashboard setup checklist
 
 ## Decisions Made
 None - followed plan as specified.
@@ -89,7 +89,7 @@ None.
 ## User Setup Required
 
 **External services require manual configuration.** See `./09-USER-SETUP.md` for:
-- Netlify staging environment configuration
+- Deployment Platform staging environment configuration
 - Manual production promotion requirement
 
 ## Next Phase Readiness

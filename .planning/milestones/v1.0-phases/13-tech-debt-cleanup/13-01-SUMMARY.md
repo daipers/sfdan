@@ -11,8 +11,8 @@ tags: [cleanup, dependencies, security]
 
 ## Tasks Completed
 
-### Task 1: Remove Netlify plugin from dependencies ✅
-- Removed `@netlify/plugin-nextjs` from devDependencies
+### Task 1: Remove Deployment Platform plugin from dependencies ✅
+- Removed `@deployment/plugin-nextjs` from devDependencies
 - Build and tests still pass
 
 ### Task 2: Document Supabase security recommendation ✅
@@ -32,7 +32,7 @@ tags: [cleanup, dependencies, security]
 
 ## Files Modified
 
-- `package.json` — removed Netlify plugin
+- `package.json` — removed Deployment Platform plugin
 - `.env.example` — added security documentation
 - `src/lib/api.ts` — improved comment clarity
 
