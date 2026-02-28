@@ -3,6 +3,7 @@
 
 import { FormEvent, useState } from 'react'
 import { trackEvent } from '@/lib/analytics'
+import { createClient } from '@/lib/supabase'
 
 interface NewsletterFormData {
   email: string
@@ -57,25 +58,19 @@ export function NewsletterSignupForm() {
     }
 
     setIsLoading(true)
+    const supabase = createClient()
 
     try {
-      const response = await fetch('/api/newsletter/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          organization: formData.organization || undefined,
-          role: formData.role || undefined,
-          interests: formData.interests,
-        }),
+      const { error: supabaseError } = await supabase.from('newsletter_subscribers').insert({
+        email: formData.email,
+        organization: formData.organization || undefined,
+        role: formData.role || undefined,
+        interests: formData.interests,
+        source: 'newsletter_form',
       })
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit signup')
+      if (supabaseError) {
+        throw new Error(supabaseError.message || 'Failed to submit signup')
       }
 
       void trackEvent({

@@ -133,7 +133,7 @@ CREATE INDEX IF NOT EXISTS idx_analytics_events_event_name ON analytics_events(e
 -- Allow anyone to create a lead (for initial sign-up via magic link)
 DROP POLICY IF EXISTS "Anyone can create lead" ON leads;
 CREATE POLICY "Anyone can create lead"
-  ON leads FOR INSERT WITH CHECK (true);
+  ON leads FOR INSERT TO anon WITH CHECK (true);
 
 -- Allow authenticated users to read leads
 DROP POLICY IF EXISTS "Auth users can read leads" ON leads;
@@ -179,10 +179,15 @@ CREATE POLICY "Service role can insert insights"
 -- RLS Policies for analytics_events table
 -- ============================================
 
+-- Allow anyone to insert analytics events (browser tracking)
+DROP POLICY IF EXISTS "Public can insert analytics events" ON analytics_events;
+CREATE POLICY "Public can insert analytics events"
+  ON analytics_events FOR INSERT TO anon WITH CHECK (true);
+
 -- Allow service role to insert analytics events
 DROP POLICY IF EXISTS "Service role can insert analytics events" ON analytics_events;
 CREATE POLICY "Service role can insert analytics events"
-  ON analytics_events FOR INSERT WITH CHECK (auth.role() = 'service_role');
+  ON analytics_events FOR INSERT TO service_role WITH CHECK (true);
 
 -- Allow service role to read analytics events
 DROP POLICY IF EXISTS "Service role can read analytics events" ON analytics_events;
@@ -225,7 +230,7 @@ CREATE TRIGGER newsletter_subscribers_updated_at_trigger
 -- Allow anyone to create a newsletter signup
 DROP POLICY IF EXISTS "Anyone can create newsletter subscriber" ON newsletter_subscribers;
 CREATE POLICY "Anyone can create newsletter subscriber"
-  ON newsletter_subscribers FOR INSERT WITH CHECK (true);
+  ON newsletter_subscribers FOR INSERT TO anon WITH CHECK (true);
 
 -- Allow authenticated users to read newsletter subscribers
 DROP POLICY IF EXISTS "Auth users can read newsletter subscribers" ON newsletter_subscribers;

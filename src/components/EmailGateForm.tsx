@@ -3,6 +3,7 @@
 
 import { useState, FormEvent } from 'react'
 import { trackEvent } from '@/lib/analytics'
+import { createClient } from '@/lib/supabase'
 
 interface EmailGateFormProps {
   onSuccess?: () => void
@@ -61,24 +62,35 @@ export function EmailGateForm({
     }
 
     setIsLoading(true)
+    const supabase = createClient()
 
     try {
-      const response = await fetch('/api/auth/magic-link', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      // 1. Sign in with OTP (magic link)
+      const redirectTo = typeof window !== 'undefined' 
+        ? `${window.location.origin}/auth/callback?redirectTo=${encodeURIComponent(window.location.pathname)}`
+        : undefined
+
+      const { error: authError } = await supabase.auth.signInWithOtp({
+        email: formData.email,
+        options: {
+          emailRedirectTo: redirectTo,
         },
-        body: JSON.stringify({
-          email: formData.email,
-          organization: formData.organization || undefined,
-          role: formData.role || undefined,
-        }),
       })
 
-      const data = await response.json()
+      if (authError) {
+        throw new Error(authError.message || 'Failed to send magic link')
+      }
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send magic link')
+      // 2. Insert into leads table
+      const { error: leadError } = await supabase.from('leads').insert({
+        email: formData.email,
+        organization: formData.organization || undefined,
+        role: formData.role || undefined,
+      })
+
+      if (leadError && leadError.code !== '23505') { // Ignore duplicate key errors (email already exists)
+        console.error('Error inserting lead:', leadError)
+        // We continue anyway since the magic link was sent
       }
 
       void trackEvent({
