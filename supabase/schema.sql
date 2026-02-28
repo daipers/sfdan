@@ -155,6 +155,12 @@ CREATE POLICY "Public can read published content"
   ON content_posts FOR SELECT
   USING (status = 'published');
 
+-- Allow authenticated users to manage content (Phase 15 Hardening)
+DROP POLICY IF EXISTS "Auth users can manage content" ON content_posts;
+CREATE POLICY "Auth users can manage content"
+  ON content_posts FOR ALL TO authenticated
+  USING (true);
+
 -- Allow service role full access for admin workflows
 DROP POLICY IF EXISTS "Service role can manage content" ON content_posts;
 CREATE POLICY "Service role can manage content"
@@ -170,10 +176,20 @@ DROP POLICY IF EXISTS "Auth users can read insights" ON insights;
 CREATE POLICY "Auth users can read insights"
   ON insights FOR SELECT USING (auth.role() = 'authenticated');
 
--- Allow service role inserts for insights
+-- Allow authenticated users (admins) to update insights
+DROP POLICY IF EXISTS "Auth users can update insights" ON insights;
+CREATE POLICY "Auth users can update insights"
+  ON insights FOR UPDATE TO authenticated USING (true);
+
+-- Allow service role full access for automated ingestion
 DROP POLICY IF EXISTS "Service role can insert insights" ON insights;
 CREATE POLICY "Service role can insert insights"
-  ON insights FOR INSERT WITH CHECK (auth.role() = 'service_role');
+  ON insights FOR ALL WITH CHECK (auth.role() = 'service_role');
+
+-- Grant explicit table permissions (for upsert conflict resolution)
+GRANT ALL ON TABLE insights TO service_role;
+GRANT ALL ON TABLE insights TO authenticated;
+GRANT SELECT ON TABLE insights TO anon;
 
 -- ============================================
 -- RLS Policies for analytics_events table
@@ -193,6 +209,62 @@ CREATE POLICY "Service role can insert analytics events"
 DROP POLICY IF EXISTS "Service role can read analytics events" ON analytics_events;
 CREATE POLICY "Service role can read analytics events"
   ON analytics_events FOR SELECT USING (auth.role() = 'service_role');
+
+-- Helper to slugify titles in SQL
+CREATE OR REPLACE FUNCTION slugify(title text)
+RETURNS text AS $$
+BEGIN
+  RETURN lower(regexp_replace(regexp_replace(title, '[^a-zA-Z0-9\s-]', '', 'g'), '\s+', '-', 'g'));
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger function: Automatically create content post when insight is published
+CREATE OR REPLACE FUNCTION sync_insight_to_content()
+RETURNS TRIGGER AS $$
+DECLARE
+  content_id UUID;
+  new_slug TEXT;
+  insight_sections JSONB;
+BEGIN
+  -- Only trigger when status changes to 'published'
+  IF (NEW.status = 'published' AND (OLD.status IS NULL OR OLD.status != 'published')) THEN
+    -- Check if content post already exists for this insight
+    SELECT id INTO content_id FROM content_posts WHERE insight_ids @> ARRAY[NEW.id];
+    
+    IF content_id IS NULL THEN
+      -- Create new content post
+      new_slug := slugify(NEW.title);
+      
+      -- Build sections JSON
+      insight_sections := jsonb_build_object(
+        'executiveSummary', NEW.summary,
+        'keyFindings', jsonb_build_array(NEW.summary),
+        'methodology', 'Derived from automated procedural compliance insight generation.',
+        'contentType', NEW.type,
+        'tags', jsonb_build_array(NEW.risk_level)
+      );
+      
+      INSERT INTO content_posts (
+        slug, title, summary, sections, insight_ids, status, is_gated, published_at, approved_at
+      ) VALUES (
+        new_slug, NEW.title, NEW.summary, insight_sections, ARRAY[NEW.id], 'published', true, NOW(), NOW()
+      );
+    ELSE
+      -- Update existing content post to published
+      UPDATE content_posts 
+      SET status = 'published', published_at = NOW(), approved_at = NOW()
+      WHERE id = content_id;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS insight_published_trigger ON insights;
+CREATE TRIGGER insight_published_trigger
+  AFTER UPDATE ON insights
+  FOR EACH ROW
+  EXECUTE FUNCTION sync_insight_to_content();
 
 -- Create function to auto-update updated_at
 CREATE OR REPLACE FUNCTION update_leads_updated_at()

@@ -10,6 +10,7 @@ import { AdminInsightsTable } from '@/components/AdminInsightsTable'
 export default function AdminInsightsPage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [insights, setInsights] = useState<any[]>([]);
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -19,11 +20,24 @@ export default function AdminInsightsPage() {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
+      
+      if (user && isAdminEmail(user.email || '')) {
+        const { data, error } = await supabase
+          .from('insights')
+          .select('*')
+          .eq('status', 'pending_review')
+          .order('generated_at', { ascending: false });
+          
+        if (!error && data) {
+          setInsights(data);
+        }
+      }
+      
       setLoading(false);
     };
 
     checkUser();
-  }, [supabase.auth]);
+  }, [supabase]);
 
   if (loading) {
     return (
@@ -64,10 +78,6 @@ export default function AdminInsightsPage() {
       </div>
     )
   }
-
-  // For static export, we'll show placeholder data since we can't use server-side Supabase
-  // In a real deployment, you'd fetch this data client-side
-  const insights: any[] = [];
 
   return (
     <div className="min-h-screen bg-gray-50">

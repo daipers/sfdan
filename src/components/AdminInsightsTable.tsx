@@ -2,6 +2,7 @@
 'use client'
 
 import { useState } from 'react'
+import { createClient } from '@/lib/supabase'
 
 interface InsightItem {
   id: string
@@ -29,18 +30,18 @@ export function AdminInsightsTable({ insights, adminEmail }: AdminInsightsTableP
     setError(null)
 
     try {
-      const response = await fetch('/api/insights/approve', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-admin-email': adminEmail,
-        },
-        body: JSON.stringify({ id: insightId }),
-      })
+      const supabase = createClient()
+      const { error: updateError } = await supabase
+        .from('insights')
+        .update({ 
+          status: 'published',
+          approved_at: new Date().toISOString(),
+          published_at: new Date().toISOString()
+        })
+        .eq('id', insightId)
 
-      const data = await response.json()
-      if (!response.ok) {
-        throw new Error(data.error || 'Approval failed')
+      if (updateError) {
+        throw new Error(updateError.message)
       }
 
       setItems((prev) => prev.filter((item) => item.id !== insightId))
