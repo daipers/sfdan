@@ -3,10 +3,12 @@
 // src/app/content/page.tsx
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import { ContentCard } from '@/components/ContentCard'
 import { ContentFilters } from '@/components/ContentFilters'
 import { AnalyticsTracker } from '@/components/AnalyticsTracker'
+import { createClient } from '@/lib/supabase'
+import { fallbackContent } from '@/lib/content-fallback'
 
 // Type matching API response
 interface ContentApiResponse {
@@ -46,23 +48,68 @@ export default function ContentPage() {
 
   useEffect(() => {
     async function fetchContent() {
+      const supabase = createClient()
       try {
-        const params = new URLSearchParams()
-        if (query) params.set('q', query)
-        if (type) params.set('type', type)
-        if (agency) params.set('agency', agency)
-        if (state) params.set('state', state)
-        if (dateFrom) params.set('from', dateFrom)
-        if (dateTo) params.set('to', dateTo)
-        if (tag) params.set('tag', tag)
+        let supabaseQuery = supabase
+          .from('content_posts')
+          .select('*')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false })
 
-        const res = await fetch(`/api/content?${params.toString()}`)
-        if (res.ok) {
-          const data = await res.json()
-          setContent(data.content || [])
+        if (dateFrom) {
+          supabaseQuery = supabaseQuery.gte('published_at', dateFrom)
+        }
+        if (dateTo) {
+          supabaseQuery = supabaseQuery.lte('published_at', dateTo)
+        }
+        if (query?.trim()) {
+          supabaseQuery = supabaseQuery.or(`title.ilike.%${query}%,summary.ilike.%${query}%`)
+        }
+
+        const { data, error } = await supabaseQuery
+
+        if (error) {
+          if (error.code === 'PGRST205') {
+            // Missing table, use fallback
+            setContent(fallbackContent as ContentApiResponse[])
+          } else {
+            console.error('Supabase fetch error:', error)
+            setContent([])
+          }
+          return
+        }
+
+        if (data) {
+          // Client-side filtering for JSON fields (sections)
+          const filtered = (data as ContentApiResponse[]).filter((post) => {
+            const sections = (post.sections as Record<string, unknown>) || {}
+            const contentType = (sections.contentType as string) || ''
+            const agencies = (sections.agencies as string[]) || []
+            const states = (sections.states as string[]) || []
+            const tags = (sections.tags as string[]) || []
+
+            if (type && contentType.toLowerCase() !== type.toLowerCase()) {
+              return false
+            }
+            if (agency && !agencies.map((item) => item.toLowerCase()).includes(agency.toLowerCase())) {
+              return false
+            }
+            if (state && !states.map((item) => item.toLowerCase()).includes(state.toLowerCase())) {
+              return false
+            }
+            if (tag && !tags.map((item) => item.toLowerCase()).includes(tag.toLowerCase())) {
+              return false
+            }
+            return true
+          })
+
+          setContent(filtered)
+        } else {
+          setContent([])
         }
       } catch (error) {
         console.error('Failed to fetch content:', error)
+        setContent([])
       } finally {
         setLoading(false)
       }

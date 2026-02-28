@@ -1,4 +1,6 @@
 // src/lib/analytics.ts
+import { createClient } from './supabase'
+
 export interface AnalyticsEvent {
   eventName: string
   journey: string
@@ -55,13 +57,8 @@ export async function trackEvent(event: AnalyticsEvent) {
       metadata: normalizeMetadata(event.metadata),
     }
 
-    await fetch('/api/analytics', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
+    const supabase = createClient()
+    await supabase.from('analytics_events').insert(payload)
   } catch (error) {
     // Silently ignore analytics errors to avoid impacting UX
   }
